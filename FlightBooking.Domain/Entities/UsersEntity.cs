@@ -1,7 +1,10 @@
-﻿namespace FlightBooking.Domain.Entities
+﻿using FlightBooking.Domain.Abstraction;
+
+namespace FlightBooking.Domain.Entities
 {
-    public class UsersEntity
+    public class UsersEntity : BaseEntity
     {
-        public Guid Id { get; set; }
+        public PersonInformationEntity? PersonInformation { get; set; }
+        public List<BoardingPassEntity>? BoardingPasses { get; set; }
     }
 }
