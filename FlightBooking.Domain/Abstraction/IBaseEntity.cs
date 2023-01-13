@@ -3,6 +3,7 @@
     public interface IBaseEntity
     {
         Guid Id { get; set; }
-        DateTime CreatedDate { get; set; }
+        string? CreatedDate { get; set; }
+        string? CreatedTime { get; set; }
     }
 }
