@@ -50,7 +50,7 @@ namespace FlightBooking.API.Controllers
 
             return Ok(_mapper.Map<AirlineResponse>(airlineResponse));
         }
-
+        
         /// <summary>
         /// Creates mapping between AirlineResponse and AirlineDto
         /// Sends request by MediatR to database for create new airline
