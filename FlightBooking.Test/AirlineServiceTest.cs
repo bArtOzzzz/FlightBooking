@@ -23,6 +23,7 @@ namespace FlightBooking.Test
 
         private List<AirlineEntity> _airlineEntitieListFixture;
         private AirlineEntity _airlineEntityFixture;
+        private AirlineDto _AirlineDtoFixture;
 
         public AirlineServiceTest()
         {
@@ -35,6 +36,8 @@ namespace FlightBooking.Test
 
             _airlineEntitieListFixture = _fixture.CreateMany<AirlineEntity>(2).ToList();
             _airlineEntityFixture = _fixture.Create<AirlineEntity>();
+            _AirlineDtoFixture = _fixture.Create<AirlineDto>();
+
 
             _mockAirlineRepository = new Mock<IAirlineRepository>();
 
@@ -98,6 +101,23 @@ namespace FlightBooking.Test
             result.Should().BeNull();
 
             _mockAirlineRepository.Verify(p => p.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
+        }
+
+        [Fact]
+        private async Task CreateAsync_OnSuccess_Returns_RightId()
+        {
+            // Arrange
+            _mockAirlineRepository.Setup(config => config.CreateAsync(It.IsAny<AirlineEntity>()))
+                                  .ReturnsAsync(_AirlineDtoFixture.Id);
+
+            // Act
+            var result = await _airlineService.CreateAsync(_AirlineDtoFixture);
+
+            // Assert
+            result.Should().NotBeEmpty();
+            result.Should().Be(_AirlineDtoFixture.Id);
+
+            _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
         }
     }
 }
