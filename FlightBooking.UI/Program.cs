@@ -5,7 +5,11 @@ using FlightBooking.Infrastructure.Repository;
 using FlightBooking.Application.Services;
 using FlightBooking.Application.Mapper;
 using Microsoft.EntityFrameworkCore;
+using FlightBooking.Application.Dto;
 using FlightBooking.Infrastructure;
+using FlightBooking.API.Validators;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,14 +26,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IAirlineRepository, AirlineRepository>();
 builder.Services.AddScoped<IAirlineService, AirlineService>();
 
+builder.Services.AddScoped<IValidator<AirlineDto>, AirlineModelValidator>();
+
 builder.Services.AddSwaggerGen();
+
+// Add Fluent Validation
+builder.Services.AddFluentValidationClientsideAdapters();
 
 builder.Services.AddMediatR(typeof(GetAllAirlinesQuery).Assembly);
  
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("FlightBooking.Infrastructure"));
+    options.UseSqlServer(builder.Configuration["DefaultConnectionToLocalDatabase"], b => b.MigrationsAssembly("FlightBooking.Infrastructure"));
 });
 
 var app = builder.Build();
