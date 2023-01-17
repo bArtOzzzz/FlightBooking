@@ -23,7 +23,7 @@ namespace FlightBooking.Test
 
         private List<AirlineEntity> _airlineEntitieListFixture;
         private AirlineEntity _airlineEntityFixture;
-        private AirlineDto _AirlineDtoFixture;
+        private AirlineDto _airlineDtoFixture;
 
         public AirlineServiceTest()
         {
@@ -36,7 +36,7 @@ namespace FlightBooking.Test
 
             _airlineEntitieListFixture = _fixture.CreateMany<AirlineEntity>(2).ToList();
             _airlineEntityFixture = _fixture.Create<AirlineEntity>();
-            _AirlineDtoFixture = _fixture.Create<AirlineDto>();
+            _airlineDtoFixture = _fixture.Create<AirlineDto>();
 
 
             _mockAirlineRepository = new Mock<IAirlineRepository>();
@@ -86,7 +86,7 @@ namespace FlightBooking.Test
         }
 
         [Fact]
-        private async Task GetByIdAsync_WhenAirlineIdIsNotCorrect_Return_Null()
+        private async Task GetByIdAsync_WhenAirlineIdIsNotCorrect_Returns_Null()
         {
             // Arrange
             _airlineEntityFixture = null!;
@@ -108,16 +108,94 @@ namespace FlightBooking.Test
         {
             // Arrange
             _mockAirlineRepository.Setup(config => config.CreateAsync(It.IsAny<AirlineEntity>()))
-                                  .ReturnsAsync(_AirlineDtoFixture.Id);
+                                  .ReturnsAsync(_airlineDtoFixture.Id);
 
             // Act
-            var result = await _airlineService.CreateAsync(_AirlineDtoFixture);
+            var result = await _airlineService.CreateAsync(_airlineDtoFixture);
 
             // Assert
             result.Should().NotBeEmpty();
-            result.Should().Be(_AirlineDtoFixture.Id);
+            result.Should().Be(_airlineDtoFixture.Id);
 
             _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
+        }
+
+        [Fact]
+        private async Task CreateAsync_WhenAirlineIsEmpty_Returns_Empty()
+        {
+            // Arrange
+            _mockAirlineRepository.Setup(config => config.CreateAsync(It.IsAny<AirlineEntity>()))
+                                  .ReturnsAsync(Guid.Empty);
+
+            // Act
+            var resuilt = await _airlineService.CreateAsync(new AirlineDto());
+
+            // Assert
+            resuilt.Should().BeEmpty();
+
+            _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
+        }
+
+        [Fact]
+        private async Task CreateAsync_WhenGetNull_Returns_NullReferenceException()
+        {
+            // AAA
+            await _airlineService.Invoking(y => y.CreateAsync(null!))
+                                 .Should()
+                                 .ThrowAsync<NullReferenceException>();
+
+            _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
+        }
+
+        [Fact]
+        private async Task UpdateAsync_OnSuccess_Returns_RightObjectAndType()
+        {
+            // Arrange
+            _mockAirlineRepository.Setup(config => config.UpdateAsync(It.IsAny<Guid>(), It.IsAny<AirlineEntity>()))
+                                  .ReturnsAsync(_airlineDtoFixture.Id);
+
+            // Act
+            var result = await _airlineService.UpdateAsync(_airlineDtoFixture.Id, _airlineDtoFixture);
+
+            // Asert
+            result.Should().NotBeEmpty();
+            result.Should().Be(_airlineDtoFixture.Id);
+
+            _mockAirlineRepository.Verify(a => a.UpdateAsync(It.IsAny<Guid>(), It.IsAny<AirlineEntity>()), Times.Once);
+        }
+
+        [Fact]
+        private async Task UpdateAsync_WhenAirlineIsEmpty_Returns_Empty()
+        {
+            // Arrange
+            _airlineEntityFixture.Id = Guid.Empty;
+
+            _mockAirlineRepository.Setup(config => config.UpdateAsync(Guid.Empty, _airlineEntityFixture))
+                                  .ReturnsAsync(_airlineDtoFixture.Id);
+
+            // Act
+            var result = await _airlineService.UpdateAsync(Guid.Empty, _airlineDtoFixture);
+
+            // Assert
+            result.Should().BeEmpty();
+
+            _mockAirlineRepository.Verify(a => a.UpdateAsync(Guid.Empty, _airlineEntityFixture), Times.Never);
+        }
+
+        [Fact]
+        private async Task DeleteAsync_ONSuccess_Returns_True()
+        {
+            // Arrange
+            _mockAirlineRepository.Setup(config => config.DeleteAsync(It.IsAny<Guid>()))
+                                  .ReturnsAsync(true);
+
+            // Act
+            var result = await _airlineService.DeleteAsync(_airlineDtoFixture.Id);
+
+            // Assert
+            result.Should().BeTrue();
+
+            _mockAirlineRepository.Verify(a => a.DeleteAsync(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

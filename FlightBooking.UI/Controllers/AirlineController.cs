@@ -33,6 +33,9 @@ namespace FlightBooking.API.Controllers
         {
             var airlinesResponse = await _mediator.Send(new GetAllAirlinesQuery());
 
+            if(airlinesResponse == null)
+                return NotFound();
+
             return Ok(_mapper.Map<List<AirlineResponse>>(airlinesResponse));
         }
 
