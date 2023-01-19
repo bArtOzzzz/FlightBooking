@@ -1,18 +1,15 @@
-using FlightBooking.Application.CQRS.Airlines.QueryHandlers;
 using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.Airlines.Queries;
 using FlightBooking.Infrastructure.Repository;
 using FlightBooking.Application.Services;
 using FlightBooking.Application.Mapper;
+using FlightBooking.API.Models.Request;
 using Microsoft.EntityFrameworkCore;
-using FlightBooking.Application.Dto;
 using FlightBooking.Infrastructure;
 using FlightBooking.API.Validators;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
-using Stashbox;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,14 +33,14 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 
     container.RegisterScoped<IAirlineRepository, AirlineRepository>();
     container.RegisterScoped<IAirlineService, AirlineService>();
-
-    container.RegisterScoped<IValidator<AirlineDto>, AirlineModelValidator>();
 });
+
+builder.Services.AddScoped<IValidator<AirlineCreateOrUpdate>, AirlineModelValidator>();
 
 builder.Services.AddSwaggerGen();
 
 // Add Fluent Validation
-builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Program>());
 
 builder.Services.AddMediatR(typeof(GetAllAirlinesQuery).Assembly);
  
