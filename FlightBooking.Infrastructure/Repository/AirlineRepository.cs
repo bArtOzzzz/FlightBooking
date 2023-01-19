@@ -1,14 +1,22 @@
-﻿using FlightBooking.Application.Abstractions.IRepository;
+﻿using Dapper;
+using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Domain.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FlightBooking.Infrastructure.Repository
 {
     public class AirlineRepository : IAirlineRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AirlineRepository(ApplicationDbContext context) => _context = context;
+        public AirlineRepository(ApplicationDbContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+        }
 
         /// <summary>
         /// Gets all notes about airlines from database
@@ -16,7 +24,14 @@ namespace FlightBooking.Infrastructure.Repository
         /// <returns></returns>
         public async Task<List<AirlineEntity>> GetAllAsync()
         {
-            return await _context.Airlines.ToListAsync();
+            var sql = "SELECT * FROM Airlines";
+
+            using (var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]))
+            {
+                await connection.OpenAsync();
+                var result = await connection.QueryAsync<AirlineEntity>(sql);
+                return result.ToList();
+            }      
         }
 
         /// <summary>
@@ -26,8 +41,14 @@ namespace FlightBooking.Infrastructure.Repository
         /// <returns></returns>
         public async Task<AirlineEntity?> GetByIdAsync(Guid id)
         {
-            return await _context.Airlines.Where(a => a.Id.Equals(id))
-                                          .FirstOrDefaultAsync();
+            var sql = "SELECT * FROM Airlines WHERE Id = @Id";
+
+            using (var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]))
+            {
+                await connection.OpenAsync();
+                var result = await connection.QuerySingleOrDefaultAsync<AirlineEntity>(sql, new {  Id = id });
+                return result;
+            }
         }
 
         /// <summary>

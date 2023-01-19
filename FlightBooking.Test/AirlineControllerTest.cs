@@ -1,17 +1,17 @@
-﻿using AutoFixture;
-using AutoMapper;
-using FlightBooking.API.Controllers;
-using FlightBooking.API.Models.Request;
-using FlightBooking.API.Models.Response;
-using FlightBooking.Application.CQRS.Airlines.Commands;
+﻿using FlightBooking.Application.CQRS.Airlines.Commands;
 using FlightBooking.Application.CQRS.Airlines.Queries;
-using FlightBooking.Application.Dto;
+using FlightBooking.API.Models.Response;
 using FlightBooking.Application.Mapper;
-using FluentAssertions;
-using MediatR;
+using FlightBooking.API.Models.Request;
+using FlightBooking.Application.Dto;
+using FlightBooking.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
+using FluentAssertions;
+using AutoFixture;
+using AutoMapper;
+using MediatR;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test
 {
@@ -154,8 +154,8 @@ namespace FlightBooking.Test
         {
             var expectedResponse = _mapper.Map<AirlineDto>(_airlineCreateOrUpdateFixture);
 
-           var resultMock = _mockMediator.Setup(m => m.Send(new CreateAirlineCommand(expectedResponse), It.IsAny<CancellationToken>()))
-                         .ReturnsAsync(expectedResponse.Id);
+            var resultMock = _mockMediator.Setup(m => m.Send(new CreateAirlineCommand(expectedResponse), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(expectedResponse.Id);
 
             // Act
             var result = await _airlineController.CreateAsync(_airlineCreateOrUpdateFixture);
