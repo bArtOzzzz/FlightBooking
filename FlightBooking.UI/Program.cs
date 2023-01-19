@@ -1,3 +1,4 @@
+using FlightBooking.Application.CQRS.Airlines.QueryHandlers;
 using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.Airlines.Queries;
@@ -9,7 +10,9 @@ using FlightBooking.Application.Dto;
 using FlightBooking.Infrastructure;
 using FlightBooking.API.Validators;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
+using Stashbox;
 using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,10 +26,19 @@ builder.Services.AddAutoMapper(typeof(AirlineMapper).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddScoped<IAirlineRepository, AirlineRepository>();
-builder.Services.AddScoped<IAirlineService, AirlineService>();
+builder.Services.AddStashbox();
 
-builder.Services.AddScoped<IValidator<AirlineDto>, AirlineModelValidator>();
+// DI for custom services
+builder.Host.UseStashbox(container => // Optional configuration options.
+{
+    // This one enables the lifetime validation for production environments too.
+    container.Configure(config => config.WithLifetimeValidation());
+
+    container.RegisterScoped<IAirlineRepository, AirlineRepository>();
+    container.RegisterScoped<IAirlineService, AirlineService>();
+
+    container.RegisterScoped<IValidator<AirlineDto>, AirlineModelValidator>();
+});
 
 builder.Services.AddSwaggerGen();
 
