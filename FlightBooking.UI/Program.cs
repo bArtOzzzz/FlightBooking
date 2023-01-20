@@ -23,6 +23,9 @@ builder.Services.AddAutoMapper(typeof(AirlineMapper).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+// Add Fluent Validation
+builder.Services.AddFluentValidationClientsideAdapters();
+
 builder.Services.AddStashbox();
 
 // DI for custom services
@@ -38,9 +41,6 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 builder.Services.AddScoped<IValidator<AirlineCreateOrUpdate>, AirlineModelValidator>();
 
 builder.Services.AddSwaggerGen();
-
-// Add Fluent Validation
-builder.Services.AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Program>());
 
 builder.Services.AddMediatR(typeof(GetAllAirlinesQuery).Assembly);
  

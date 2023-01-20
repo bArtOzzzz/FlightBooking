@@ -9,7 +9,7 @@ using AutoFixture;
 using Xunit;
 using Moq;
 
-namespace FlightBooking.Test
+namespace FlightBooking.Test.AirlineTests
 {
     public class AirlineHandlersTest
     {
@@ -216,7 +216,7 @@ namespace FlightBooking.Test
         private async Task UpdateAsync_Should_Return_CompletedResult_With_RightType()
         {
             // Arrange
-            _mockAirlineService.Setup(config => config.UpdateAsync(It.IsAny<Guid>() ,It.IsAny<AirlineDto>()))
+            _mockAirlineService.Setup(config => config.UpdateAsync(It.IsAny<Guid>(), It.IsAny<AirlineDto>()))
                                .ReturnsAsync(_airlineDtoFixture.Id);
 
             var command = new UpdateAirlineCommand(_airlineDtoFixture.Id, _airlineDtoFixture);

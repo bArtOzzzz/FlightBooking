@@ -52,10 +52,7 @@ namespace FlightBooking.Application.Services
         {
             var airlineMap = _mapper.Map<AirlineEntity>(airline);
 
-            await _airlineRepository.CreateAsync(airlineMap);
-            airline.Id = airlineMap.Id;
-                
-            return airlineMap.Id;
+            return await _airlineRepository.CreateAsync(airlineMap); ;
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ using AutoMapper;
 using Xunit;
 using Moq;
 
-namespace FlightBooking.Test
+namespace FlightBooking.Test.AirlineTests
 {
     public class AirlineServiceTest
     {
@@ -132,17 +132,6 @@ namespace FlightBooking.Test
 
             // Assert
             resuilt.Should().BeEmpty();
-
-            _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
-        }
-
-        [Fact]
-        private async Task CreateAsync_WhenGetNull_Returns_NullReferenceException()
-        {
-            // AAA
-            await _airlineService.Invoking(y => y.CreateAsync(null!))
-                                 .Should()
-                                 .ThrowAsync<NullReferenceException>();
 
             _mockAirlineRepository.Verify(a => a.CreateAsync(It.IsAny<AirlineEntity>()), Times.Once);
         }

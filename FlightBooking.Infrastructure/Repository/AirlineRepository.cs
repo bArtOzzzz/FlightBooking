@@ -70,8 +70,6 @@ namespace FlightBooking.Infrastructure.Repository
             await _context.AddAsync(airlineEntity);
             await _context.SaveChangesAsync();
 
-            airline.Id = airlineEntity.Id;
-
             return airlineEntity.Id;
         }
 

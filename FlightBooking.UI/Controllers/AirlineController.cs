@@ -4,6 +4,7 @@ using FlightBooking.API.Models.Response;
 using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 using AutoMapper;
 using MediatR;
 
@@ -16,10 +17,15 @@ namespace FlightBooking.API.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public AirlineController(IMediator mediator, IMapper mapper)
+        private readonly IValidator<AirlineCreateOrUpdate> _validator;
+
+        public AirlineController(IMediator mediator, 
+                                 IMapper mapper, 
+                                 IValidator<AirlineCreateOrUpdate> validator)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _validator = validator;
         }
 
         /// <summary>
@@ -67,20 +73,14 @@ namespace FlightBooking.API.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult> CreateAsync(AirlineCreateOrUpdate airlineCreateOrUpdate)
         {
-            if (airlineCreateOrUpdate == null || !ModelState.IsValid)
+            if (airlineCreateOrUpdate == null)
                 return NotFound();
+
+            _validator.ValidateAndThrow(airlineCreateOrUpdate);
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            if (string.IsNullOrEmpty(airlineMap.AirlineName))
-                return NotFound();
-
-            Guid airlineId = await _mediator.Send(new CreateAirlineCommand(airlineMap), default);
-
-            if (airlineId.Equals(Guid.Empty))
-                return NotFound();
-
-            return Ok(airlineId);
+            return Ok(await _mediator.Send(new CreateAirlineCommand(airlineMap), default));
         }
 
         /// <summary>
@@ -94,19 +94,15 @@ namespace FlightBooking.API.Controllers
         [HttpPut("Update")]
         public async Task<ActionResult> UpdateAsync(Guid id, AirlineCreateOrUpdate airlineCreateOrUpdate)
         {
+            _validator.ValidateAndThrow(airlineCreateOrUpdate);
+
             if (airlineCreateOrUpdate == null
-                || id.Equals(Guid.Empty) 
-                || !ModelState.IsValid)
+                || id.Equals(Guid.Empty))
                 return NotFound();
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            if (string.IsNullOrEmpty(airlineMap.AirlineName))
-                return NotFound();
-
-            Guid airlineId = await _mediator.Send(new UpdateAirlineCommand(id, airlineMap));
-
-            return Ok(airlineId);
+            return Ok(await _mediator.Send(new UpdateAirlineCommand(id, airlineMap)));
         }
 
         /// <summary>
