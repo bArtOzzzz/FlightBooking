@@ -75,7 +75,7 @@ namespace FlightBooking.API.Controllers
             if (string.IsNullOrEmpty(airlineMap.AirlineName))
                 return NotFound();
 
-            Guid airlineId = await _mediator.Send(new CreateAirlineCommand(airlineMap));
+            Guid airlineId = await _mediator.Send(new CreateAirlineCommand(airlineMap), default);
 
             if (airlineId.Equals(Guid.Empty))
                 return NotFound();

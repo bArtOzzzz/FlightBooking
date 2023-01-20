@@ -1,13 +1,13 @@
-﻿using AutoFixture;
-using AutoMapper;
-using FlightBooking.Application.Abstractions.IRepository;
-using FlightBooking.Application.Dto;
-using FlightBooking.Application.Mapper;
+﻿using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Services;
+using FlightBooking.Application.Mapper;
+using FlightBooking.Application.Dto;
 using FlightBooking.Domain.Entities;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
+using AutoMapper;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test
 {

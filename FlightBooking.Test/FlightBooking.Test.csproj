@@ -11,8 +11,10 @@
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
     <PackageReference Include="FluentAssertions" Version="6.9.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="Moq" Version="4.18.4" />
+    <PackageReference Include="Moq.Dapper" Version="1.0.5" />
     <PackageReference Include="Stashbox" Version="5.7.0" />
     <PackageReference Include="Stashbox.AspNetCore.Hosting" Version="4.5.0" />
     <PackageReference Include="Stashbox.AspNetCore.Multitenant" Version="4.5.0" />

@@ -23,8 +23,8 @@ namespace FlightBooking.Infrastructure
         {
             #region Local variables
             Guid[] GuidAirlinesArr = { Guid.NewGuid(),
-                                       Guid.NewGuid(),
-                                       Guid.NewGuid() };
+                                       new Guid("96e1738a-568d-4a23-be7d-f2f3382f1cf9"),
+                                       new Guid("b01e92b9-2c8b-4437-b290-eae73e1017f0") };
 
             Guid[] GuidAirplanesArr = { Guid.NewGuid(),
                                         Guid.NewGuid(),
