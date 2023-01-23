@@ -18,44 +18,26 @@ namespace FlightBooking.Infrastructure.Repository
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Gets all notes about airlines from database
-        /// </summary>
-        /// <returns></returns>
         public async Task<List<AirlineEntity>> GetAllAsync()
         {
             var sql = "SELECT * FROM Airlines";
 
-            using (var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]))
-            {
-                await connection.OpenAsync();
-                var result = await connection.QueryAsync<AirlineEntity>(sql);
-                return result.ToList();
-            }      
+            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            await connection.OpenAsync();
+            var result = await connection.QueryAsync<AirlineEntity>(sql);
+            return result.ToList();
         }
 
-        /// <summary>
-        /// Gets airline by id from database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         public async Task<AirlineEntity?> GetByIdAsync(Guid id)
         {
             var sql = "SELECT * FROM Airlines WHERE Id = @Id";
 
-            using (var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]))
-            {
-                await connection.OpenAsync();
-                var result = await connection.QuerySingleOrDefaultAsync<AirlineEntity>(sql, new {  Id = id });
-                return result;
-            }
+            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            await connection.OpenAsync();
+            var result = await connection.QuerySingleOrDefaultAsync<AirlineEntity>(sql, new { Id = id });
+            return result;
         }
 
-        /// <summary>
-        /// Creates new note about airline and saves in database
-        /// </summary>
-        /// <param name="airline"></param>
-        /// <returns></returns>
         public async Task<Guid> CreateAsync(AirlineEntity airline)
         {
             AirlineEntity airlineEntity = new()
@@ -73,12 +55,6 @@ namespace FlightBooking.Infrastructure.Repository
             return airlineEntity.Id;
         }
 
-        /// <summary>
-        /// Updates information about existed airline by id and saves in database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="airline"></param>
-        /// <returns></returns>
         public async Task<Guid> UpdateAsync(Guid id, AirlineEntity airline)
         {
             var currentAirline = await _context.Airlines.Where(a => a.Id.Equals(id))
@@ -93,11 +69,6 @@ namespace FlightBooking.Infrastructure.Repository
             return id;
         }
 
-        /// <summary>
-        /// Deletes all information about existed airline from database and saves changes
-        /// </summary>
-        /// <param name="airlineEntity"></param>
-        /// <returns></returns>
         public async Task<bool> DeleteAsync(Guid id)
         {
             var currentAirline = await _context.Airlines.Where(a => a.Id.Equals(id))

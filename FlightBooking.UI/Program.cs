@@ -1,3 +1,4 @@
+using FlightBooking.Application.Abstractions.IRepositories;
 using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.Airlines.Queries;
@@ -18,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Enable AutoMapper
-builder.Services.AddAutoMapper(typeof(AirlineMapper).Assembly);
+builder.Services.AddAutoMapper(typeof(Mapper).Assembly);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -36,13 +37,19 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 
     container.RegisterScoped<IAirlineRepository, AirlineRepository>();
     container.RegisterScoped<IAirlineService, AirlineService>();
+
+    container.RegisterScoped<IFlightRepository, FlightRepository>();
+    container.RegisterScoped<IFlightService, FlightService>();
 });
 
-builder.Services.AddScoped<IValidator<AirlineCreateOrUpdate>, AirlineModelValidator>();
+builder.Services.AddScoped<IValidator<AirlineCreateOrUpdateRequest>, AirlineModelValidator>();
+builder.Services.AddScoped<IValidator<FlightCreateOrUpdateRequest>, FlightModelValidator>();
+builder.Services.AddScoped<IValidator<FlightUpdateDescriptionRequest>, FlightUpdateDescriptionValidator>();
+builder.Services.AddScoped<IValidator<FlightUpdateDateInformationRequest>, FlightUpdateDateInformationValidator>();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(typeof(GetAllAirlinesQuery).Assembly);
+builder.Services.AddMediatR(typeof(GetAllAsyncQuery).Assembly);
  
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

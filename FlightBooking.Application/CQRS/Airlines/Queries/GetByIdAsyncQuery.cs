@@ -3,5 +3,5 @@ using MediatR;
 
 namespace FlightBooking.Application.CQRS.Airlines.Queries
 {
-    public record GetAirlineByIdQuery(Guid id) : IRequest<AirlineDto>;
+    public record GetByIdAsyncQuery(Guid id) : IRequest<AirlineDto>;
 }

@@ -27,7 +27,7 @@ namespace FlightBooking.Test.AirlineTests
 
         public AirlineServiceTest()
         {
-            MapperConfiguration mappingConfig = new(mc => mc.AddProfile(new AirlineMapper()));
+            MapperConfiguration mappingConfig = new(mc => mc.AddProfile(new Application.Mapper.Mapper()));
             _mapper = mappingConfig.CreateMapper();
 
             _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()

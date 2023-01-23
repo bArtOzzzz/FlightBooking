@@ -17,11 +17,11 @@ namespace FlightBooking.API.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        private readonly IValidator<AirlineCreateOrUpdate> _validator;
+        private readonly IValidator<AirlineCreateOrUpdateRequest> _validator;
 
         public AirlineController(IMediator mediator, 
                                  IMapper mapper, 
-                                 IValidator<AirlineCreateOrUpdate> validator)
+                                 IValidator<AirlineCreateOrUpdateRequest> validator)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -37,7 +37,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAllAsync()
         {
-            var airlinesMap = _mapper.Map<List<AirlineResponse>>(await _mediator.Send(new GetAllAirlinesQuery()));
+            var airlinesMap = _mapper.Map<List<AirlineResponse>>(await _mediator.Send(new GetAllAsyncQuery()));
 
             if (!airlinesMap.Any())
                 return NotFound();
@@ -55,7 +55,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult> GetByIdAsync(Guid id)
         {
-            var airlineMap = _mapper.Map<AirlineResponse>(await _mediator.Send(new GetAirlineByIdQuery(id)));
+            var airlineMap = _mapper.Map<AirlineResponse>(await _mediator.Send(new GetByIdAsyncQuery(id)));
 
             if (airlineMap == null)
                 return NotFound();
@@ -71,7 +71,7 @@ namespace FlightBooking.API.Controllers
         /// <param name="airlineCreateOrUpdate"></param>
         /// <returns></returns>
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateAsync(AirlineCreateOrUpdate airlineCreateOrUpdate)
+        public async Task<ActionResult> CreateAsync(AirlineCreateOrUpdateRequest airlineCreateOrUpdate)
         {
             if (airlineCreateOrUpdate == null)
                 return NotFound();
@@ -80,7 +80,7 @@ namespace FlightBooking.API.Controllers
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new CreateAirlineCommand(airlineMap), default));
+            return Ok(await _mediator.Send(new CreateAsyncCommand(airlineMap), default));
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace FlightBooking.API.Controllers
         /// <param name="id"></param>
         /// <param name="airlineCreateOrUpdate"></param>
         /// <returns></returns>
-        [HttpPut("Update")]
-        public async Task<ActionResult> UpdateAsync(Guid id, AirlineCreateOrUpdate airlineCreateOrUpdate)
+        [HttpPut("Update/{id}")]
+        public async Task<ActionResult> UpdateAsync(Guid id, AirlineCreateOrUpdateRequest airlineCreateOrUpdate)
         {
             _validator.ValidateAndThrow(airlineCreateOrUpdate);
 
@@ -102,7 +102,7 @@ namespace FlightBooking.API.Controllers
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new UpdateAirlineCommand(id, airlineMap)));
+            return Ok(await _mediator.Send(new UpdateAsyncCommand(id, airlineMap)));
         }
 
         /// <summary>
@@ -111,13 +111,13 @@ namespace FlightBooking.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             if(id.Equals(Guid.Empty))
                 return NotFound();
 
-            await _mediator.Send(new DeleteAirlineCommand(id));
+            await _mediator.Send(new DeleteAsyncCommand(id));
 
             return NoContent();
         }

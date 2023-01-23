@@ -23,25 +23,25 @@ namespace FlightBooking.Test.AirlineTests
         private readonly Fixture _fixture = new();
         private readonly AirlineController _airlineController;
 
-        private readonly Mock<IValidator<AirlineCreateOrUpdate>> _mockValidator;
+        private readonly Mock<IValidator<AirlineCreateOrUpdateRequest>> _mockValidator;
 
         private readonly IMapper _mapper;
 
         private List<AirlineDto> _airlinesDtoListFixture;
         private readonly AirlineDto _airlineDtoFixture;
-        private readonly AirlineCreateOrUpdate _airlineCreateOrUpdateFixture;
+        private readonly AirlineCreateOrUpdateRequest _airlineCreateOrUpdateFixture;
 
         public AirlineControllerTest()
         {
-            MapperConfiguration mappingConfig = new(mc => mc.AddProfile(new AirlineMapper()));
+            MapperConfiguration mappingConfig = new(mc => mc.AddProfile(new Application.Mapper.Mapper()));
             _mapper = mappingConfig.CreateMapper();
 
             _mockMediator = new Mock<IMediator>();
-            _mockValidator = new Mock<IValidator<AirlineCreateOrUpdate>>();
+            _mockValidator = new Mock<IValidator<AirlineCreateOrUpdateRequest>>();
 
             _airlinesDtoListFixture = _fixture.CreateMany<AirlineDto>(3).ToList();
             _airlineDtoFixture = _fixture.Create<AirlineDto>();
-            _airlineCreateOrUpdateFixture = _fixture.Create<AirlineCreateOrUpdate>();
+            _airlineCreateOrUpdateFixture = _fixture.Create<AirlineCreateOrUpdateRequest>();
 
             _airlineController = new AirlineController(_mockMediator.Object, _mapper, _mockValidator.Object);
         }
@@ -52,7 +52,7 @@ namespace FlightBooking.Test.AirlineTests
             // Arrange
             var expectedResponse = _mapper.Map<List<AirlineResponse>>(_airlinesDtoListFixture);
 
-            _mockMediator.Setup(m => m.Send(new GetAllAirlinesQuery(), default))
+            _mockMediator.Setup(m => m.Send(new GetAllAsyncQuery(), default))
                          .ReturnsAsync(_airlinesDtoListFixture);
 
             // Act
@@ -63,7 +63,7 @@ namespace FlightBooking.Test.AirlineTests
             result.Value.Should().BeEquivalentTo(expectedResponse);
             result.Should().BeOfType<OkObjectResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAirlinesQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace FlightBooking.Test.AirlineTests
             // Arrange
             _airlinesDtoListFixture = null!;
 
-            _mockMediator.Setup(m => m.Send(new GetAllAirlinesQuery(), default))
+            _mockMediator.Setup(m => m.Send(new GetAllAsyncQuery(), default))
                          .ReturnsAsync(_airlinesDtoListFixture);
 
             // Act
@@ -81,14 +81,14 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAirlinesQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
         private async Task GetAllAsync_WhenCollectionIsEmpty_Returns_NotFoundResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new GetAllAirlinesQuery(), default))
+            _mockMediator.Setup(m => m.Send(new GetAllAsyncQuery(), default))
                          .ReturnsAsync(new List<AirlineDto>());
 
             // Act
@@ -97,7 +97,7 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAirlinesQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetAllAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace FlightBooking.Test.AirlineTests
             // Arrange
             var expectedResponse = _mapper.Map<AirlineResponse>(_airlineDtoFixture);
 
-            _mockMediator.Setup(m => m.Send(new GetAirlineByIdQuery(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new GetByIdAsyncQuery(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(_airlineDtoFixture);
 
             // Act
@@ -117,14 +117,14 @@ namespace FlightBooking.Test.AirlineTests
             result.Value.Should().BeEquivalentTo(expectedResponse);
             result.Should().BeOfType<OkObjectResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAirlineByIdQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetByIdAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
         private async Task GetByIdAsync_WhenRequestIsEmpty_Returns_NotFoundResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new GetAirlineByIdQuery(Guid.Empty), default));
+            _mockMediator.Setup(m => m.Send(new GetByIdAsyncQuery(Guid.Empty), default));
 
             // Act
             var result = await _airlineController.GetByIdAsync(_airlineDtoFixture.Id);
@@ -132,14 +132,14 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAirlineByIdQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetByIdAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
         private async Task GetByIdAsync_WhenControllerRequestIsEmpty_Returns_NotFoundResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new GetAirlineByIdQuery(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new GetByIdAsyncQuery(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(_airlineDtoFixture);
 
             // Act
@@ -148,14 +148,14 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<GetAirlineByIdQuery>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetByIdAsyncQuery>(), default), Times.Once);
         }
 
         [Fact]
         private async Task CreateAsync_OnSuccess_Returns_RightType_And_OkResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new CreateAirlineCommand(_airlineDtoFixture), default))
+            _mockMediator.Setup(m => m.Send(new CreateAsyncCommand(_airlineDtoFixture), default))
                          .ReturnsAsync(_airlineDtoFixture.Id);
 
             // Act
@@ -165,7 +165,7 @@ namespace FlightBooking.Test.AirlineTests
             result.Should().BeOfType<OkObjectResult>();
             result.Value.Should().BeOfType<Guid>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<CreateAirlineCommand>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<CreateAsyncCommand>(), default), Times.Once);
         }
 
         [Fact]
@@ -177,14 +177,14 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<CreateAirlineCommand>(), default), Times.Never);
+            _mockMediator.Verify(x => x.Send(It.IsAny<CreateAsyncCommand>(), default), Times.Never);
         }
 
         [Fact]
         private async Task UpdateAsync_OnSuccsess_Returns_RightType_And_OkResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new UpdateAirlineCommand(_airlineDtoFixture.Id, _airlineDtoFixture), default))
+            _mockMediator.Setup(m => m.Send(new UpdateAsyncCommand(_airlineDtoFixture.Id, _airlineDtoFixture), default))
                          .ReturnsAsync(_airlineDtoFixture.Id);
 
             // Act
@@ -194,7 +194,7 @@ namespace FlightBooking.Test.AirlineTests
             result.Value.Should().BeOfType<Guid>();
             result.Should().BeOfType<OkObjectResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAirlineCommand>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAsyncCommand>(), default), Times.Once);
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAirlineCommand>(), default), Times.Never);
+            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAsyncCommand>(), default), Times.Never);
         }
 
         [Fact]
@@ -218,7 +218,7 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAirlineCommand>(), default), Times.Never);
+            _mockMediator.Verify(x => x.Send(It.IsAny<UpdateAsyncCommand>(), default), Times.Never);
         }
 
         [Fact]
@@ -230,7 +230,7 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NoContentResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<DeleteAirlineCommand>(), default), Times.Once);
+            _mockMediator.Verify(x => x.Send(It.IsAny<DeleteAsyncCommand>(), default), Times.Once);
         }
 
         [Fact]
@@ -239,7 +239,7 @@ namespace FlightBooking.Test.AirlineTests
             _airlineDtoFixture.Id = Guid.Empty;
 
             // Arrange
-            _mockMediator.Setup(m => m.Send(new DeleteAirlineCommand(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new DeleteAsyncCommand(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(true);
 
             // Act
@@ -248,7 +248,7 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<NotFoundResult>();
 
-            _mockMediator.Verify(x => x.Send(It.IsAny<DeleteAirlineCommand>(), default), Times.Never);
+            _mockMediator.Verify(x => x.Send(It.IsAny<DeleteAsyncCommand>(), default), Times.Never);
         }
     }
 }

@@ -4,13 +4,13 @@ using MediatR;
 
 namespace FlightBooking.Application.CQRS.Airlines.CommandsHandler
 {
-    public class CreateAirlineCommandHandler : IRequestHandler<CreateAirlineCommand, Guid>
+    public class CreateAsyncCommandHandler : IRequestHandler<CreateAsyncCommand, Guid>
     {
         private readonly IAirlineService _airlineService;
 
-        public CreateAirlineCommandHandler(IAirlineService airlineService) => _airlineService = airlineService;
+        public CreateAsyncCommandHandler(IAirlineService airlineService) => _airlineService = airlineService;
 
-        public async Task<Guid> Handle(CreateAirlineCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateAsyncCommand request, CancellationToken cancellationToken)
         {
             return await _airlineService.CreateAsync(request.AirlineDto);
         }

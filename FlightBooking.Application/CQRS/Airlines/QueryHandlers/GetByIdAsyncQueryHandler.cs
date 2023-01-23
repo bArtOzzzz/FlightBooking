@@ -5,13 +5,13 @@ using MediatR;
 
 namespace FlightBooking.Application.CQRS.Airlines.QueryHandlers
 {
-    public class GetAirlineByIdQueryHandler : IRequestHandler<GetAirlineByIdQuery, AirlineDto>
+    public class GetByIdAsyncQueryHandler : IRequestHandler<GetByIdAsyncQuery, AirlineDto>
     {
         private readonly IAirlineService _airlineService;
 
-        public GetAirlineByIdQueryHandler(IAirlineService airlineService) => _airlineService = airlineService;
+        public GetByIdAsyncQueryHandler(IAirlineService airlineService) => _airlineService = airlineService;
 
-        public async Task<AirlineDto> Handle(GetAirlineByIdQuery request, CancellationToken cancellationToken)
+        public async Task<AirlineDto> Handle(GetByIdAsyncQuery request, CancellationToken cancellationToken)
         {
             return await _airlineService.GetByIdAsync(request.id);
         }
