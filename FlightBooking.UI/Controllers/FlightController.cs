@@ -43,7 +43,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAllAsync()
         {
-            var flightMap = _mapper.Map<List<FlightResponse>>(await _mediator.Send(new GetAllFlightsQuery()));
+            var flightMap = _mapper.Map<List<FlightResponse>>(await _mediator.Send(new FlightGetAllQuery()));
 
             if (!flightMap.Any())
                 return NotFound();
@@ -61,7 +61,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult> GetByIdAsync(Guid id)
         {
-            var flightMap = _mapper.Map<FlightResponse>(await _mediator.Send(new GetFlightByIdQuery(id)));
+            var flightMap = _mapper.Map<FlightResponse>(await _mediator.Send(new FlightGetByIdQuery(id)));
 
             if (flightMap == null)
                 return NotFound();
@@ -86,7 +86,7 @@ namespace FlightBooking.API.Controllers
 
             var flightMap = _mapper.Map<FlightDto>(flightCreateOrUpdateRequest);
 
-            return Ok(await _mediator.Send(new CreateAsyncCommand(flightMap), default));
+            return Ok(await _mediator.Send(new FlightCreateCommand(flightMap), default));
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace FlightBooking.API.Controllers
 
             var flightMap = _mapper.Map<FlightDto>(flightCreateOrUpdateRequest);
 
-            return Ok(await _mediator.Send(new UpdateAsyncCommand(id, flightMap)));
+            return Ok(await _mediator.Send(new FlightUpdateCommand(id, flightMap)));
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace FlightBooking.API.Controllers
 
             var flightMap = _mapper.Map<FlightDto>(flightUpdateDescriptionRequest);
 
-            return Ok(await _mediator.Send(new UpdateDescriptionAsyncCommand(id, flightMap)));
+            return Ok(await _mediator.Send(new FlightUpdateDescriptionCommand(id, flightMap)));
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace FlightBooking.API.Controllers
 
             var flightMap = _mapper.Map<FlightDto>(flightUpdateDateInformationRequest);
 
-            return Ok(await _mediator.Send(new UpdateDateInformationAsyncCommand(id, flightMap)));
+            return Ok(await _mediator.Send(new FlightUpdateDateInformationCommand(id, flightMap)));
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace FlightBooking.API.Controllers
             if (id.Equals(Guid.Empty))
                 return NotFound();
 
-            await _mediator.Send(new DeleteAsyncCommand(id));
+            await _mediator.Send(new FlightDeleteCommand(id));
 
             return NoContent();
         }

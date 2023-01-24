@@ -40,6 +40,9 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 
     container.RegisterScoped<IFlightRepository, FlightRepository>();
     container.RegisterScoped<IFlightService, FlightService>();
+
+    container.RegisterScoped<IAirplaneRepository, AirplaneRepository>();
+    container.RegisterScoped<IAirplaneService, AirplaneService>();
 });
 
 builder.Services.AddScoped<IValidator<AirlineCreateOrUpdateRequest>, AirlineModelValidator>();

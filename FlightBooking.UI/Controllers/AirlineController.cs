@@ -37,7 +37,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAllAsync()
         {
-            var airlinesMap = _mapper.Map<List<AirlineResponse>>(await _mediator.Send(new GetAllAsyncQuery()));
+            var airlinesMap = _mapper.Map<List<AirlineResponse>>(await _mediator.Send(new AirlineGetAllQuery()));
 
             if (!airlinesMap.Any())
                 return NotFound();
@@ -55,7 +55,7 @@ namespace FlightBooking.API.Controllers
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult> GetByIdAsync(Guid id)
         {
-            var airlineMap = _mapper.Map<AirlineResponse>(await _mediator.Send(new GetByIdAsyncQuery(id)));
+            var airlineMap = _mapper.Map<AirlineResponse>(await _mediator.Send(new AirlineGetByIdQuery(id)));
 
             if (airlineMap == null)
                 return NotFound();
@@ -76,11 +76,11 @@ namespace FlightBooking.API.Controllers
             if (airlineCreateOrUpdate == null)
                 return NotFound();
 
-            _validator.ValidateAndThrow(airlineCreateOrUpdate);
+            await _validator.ValidateAndThrowAsync(airlineCreateOrUpdate);
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new CreateAsyncCommand(airlineMap), default));
+            return Ok(await _mediator.Send(new AirlineCreateAsyncCommand(airlineMap), default));
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace FlightBooking.API.Controllers
         [HttpPut("Update/{id}")]
         public async Task<ActionResult> UpdateAsync(Guid id, AirlineCreateOrUpdateRequest airlineCreateOrUpdate)
         {
-            _validator.ValidateAndThrow(airlineCreateOrUpdate);
+            await _validator.ValidateAndThrowAsync(airlineCreateOrUpdate);
 
             if (airlineCreateOrUpdate == null
                 || id.Equals(Guid.Empty))
@@ -102,7 +102,7 @@ namespace FlightBooking.API.Controllers
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new UpdateAsyncCommand(id, airlineMap)));
+            return Ok(await _mediator.Send(new AirlineUpdateAsyncCommand(id, airlineMap)));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FlightBooking.API.Controllers
             if(id.Equals(Guid.Empty))
                 return NotFound();
 
-            await _mediator.Send(new DeleteAsyncCommand(id));
+            await _mediator.Send(new AirlineDeleteAsyncCommand(id));
 
             return NoContent();
         }

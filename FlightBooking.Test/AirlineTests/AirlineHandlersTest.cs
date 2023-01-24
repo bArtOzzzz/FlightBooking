@@ -35,8 +35,8 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.GetAllAsync())
                                .ReturnsAsync(_airlineDtosListFixture);
 
-            var query = new GetAllAsyncQuery();
-            var handler = new GetAllAsyncQueryHandler(_mockAirlineService.Object);
+            var query = new AirlineGetAllQuery();
+            var handler = new AirlineGetAllQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -58,8 +58,8 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.GetAllAsync())
                                .ReturnsAsync(_airlineDtosListFixture);
 
-            var query = new GetAllAsyncQuery();
-            var handler = new GetAllAsyncQueryHandler(_mockAirlineService.Object);
+            var query = new AirlineGetAllQuery();
+            var handler = new AirlineGetAllQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -77,8 +77,8 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.GetAllAsync())
                                .ReturnsAsync(new List<AirlineDto>());
 
-            var query = new GetAllAsyncQuery();
-            var handler = new GetAllAsyncQueryHandler(_mockAirlineService.Object);
+            var query = new AirlineGetAllQuery();
+            var handler = new AirlineGetAllQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -100,7 +100,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(_airlineDtosListFixture[0]);
 
             var query = new GetByIdAsyncQuery(_airlineDtosListFixture[0].Id);
-            var handler = new GetByIdAsyncQueryHandler(_mockAirlineService.Object);
+            var handler = new AirlineGetByIdQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -119,7 +119,7 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.GetByIdAsync(It.IsAny<Guid>()));
 
             var query = new GetByIdAsyncQuery(_airlineDtoFixture.Id);
-            var handler = new GetByIdAsyncQueryHandler(_mockAirlineService.Object);
+            var handler = new AirlineGetByIdQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -138,7 +138,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(new AirlineDto());
 
             var query = new GetByIdAsyncQuery(_airlineDtoFixture.Id);
-            var handler = new GetByIdAsyncQueryHandler(_mockAirlineService.Object);
+            var handler = new AirlineGetByIdQueryHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(query, default);
@@ -158,8 +158,8 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.CreateAsync(It.IsAny<AirlineDto>()))
                                .ReturnsAsync(_airlineDtoFixture.Id);
 
-            var command = new CreateAsyncCommand(_airlineDtoFixture);
-            var handler = new CreateAsyncCommandHandler(_mockAirlineService.Object);
+            var command = new AirlineCreateAsyncCommand(_airlineDtoFixture);
+            var handler = new AirlineCreateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -179,8 +179,8 @@ namespace FlightBooking.Test.AirlineTests
 
             _mockAirlineService.Setup(config => config.CreateAsync(It.IsAny<AirlineDto>()));
 
-            var command = new CreateAsyncCommand(_airlineDtoFixture);
-            var handler = new CreateAsyncCommandHandler(_mockAirlineService.Object);
+            var command = new AirlineCreateAsyncCommand(_airlineDtoFixture);
+            var handler = new AirlineCreateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -200,8 +200,8 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.CreateAsync(It.IsAny<AirlineDto>()))
                                .ReturnsAsync(airlineDto.Id);
 
-            var command = new CreateAsyncCommand(_airlineDtoFixture);
-            var handler = new CreateAsyncCommandHandler(_mockAirlineService.Object);
+            var command = new AirlineCreateAsyncCommand(_airlineDtoFixture);
+            var handler = new AirlineCreateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -220,7 +220,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(_airlineDtoFixture.Id);
 
             var command = new UpdateAsyncCommand(_airlineDtoFixture.Id, _airlineDtoFixture);
-            var handler = new UpdateAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineUpdateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -238,7 +238,7 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.UpdateAsync(It.IsAny<Guid>(), It.IsAny<AirlineDto>()));
 
             var command = new UpdateAsyncCommand(_airlineDtoFixture.Id, _airlineDtoFixture);
-            var handler = new UpdateAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineUpdateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -259,7 +259,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(_airlineDtoFixture.Id);
 
             var command = new UpdateAsyncCommand(_airlineDtoFixture.Id, _airlineDtoFixture);
-            var handler = new UpdateAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineUpdateCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -278,7 +278,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(true);
 
             var command = new DeleteAsyncCommand(_airlineDtoFixture.Id);
-            var handler = new DeleteAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineDeleteCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -297,7 +297,7 @@ namespace FlightBooking.Test.AirlineTests
                                .ReturnsAsync(false);
 
             var command = new DeleteAsyncCommand(_airlineDtoFixture.Id);
-            var handler = new DeleteAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineDeleteCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);
@@ -315,7 +315,7 @@ namespace FlightBooking.Test.AirlineTests
             _mockAirlineService.Setup(config => config.DeleteAsync(It.IsAny<Guid>()));
 
             var command = new DeleteAsyncCommand(_airlineDtoFixture.Id);
-            var handler = new DeleteAsyncCommandHandler(_mockAirlineService.Object);
+            var handler = new AirlineDeleteCommandHandler(_mockAirlineService.Object);
 
             // Act
             var result = await handler.Handle(command, default);

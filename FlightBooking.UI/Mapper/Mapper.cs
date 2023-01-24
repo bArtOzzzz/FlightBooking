@@ -34,6 +34,10 @@ namespace FlightBooking.Application.Mapper
 
             CreateMap<FlightUpdateDateInformationRequest, FlightDto>();
             CreateMap<FlightDto, FlightUpdateDateInformationRequest>();
+
+
+            CreateMap<AirplaneEntity, AirplaneDto>();
+            CreateMap<AirplaneDto, AirplaneEntity>();
         }
     }
 }

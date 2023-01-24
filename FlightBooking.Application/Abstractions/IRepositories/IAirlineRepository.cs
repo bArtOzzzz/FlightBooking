@@ -35,7 +35,7 @@ namespace FlightBooking.Application.Abstractions.IRepository
         /// <summary>
         /// Deletes all information about existed airline from database and saves changes
         /// </summary>
-        /// <param name="airlineEntity"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public Task<bool> DeleteAsync(Guid id);
     }

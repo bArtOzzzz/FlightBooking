@@ -40,7 +40,7 @@ namespace FlightBooking.Application.Abstractions.IServices
         /// Creates mapping for data between AirlineDto and AirlineEntity
         /// Deletes airline from repository
         /// </summary>
-        /// <param name="airlineEntity"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public Task<bool> DeleteAsync(Guid id);
     }

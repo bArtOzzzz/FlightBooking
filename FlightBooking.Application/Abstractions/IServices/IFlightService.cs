@@ -55,7 +55,7 @@ namespace FlightBooking.Application.Abstractions.IServices
         /// <summary>
         /// Deletes flight by id from repository
         /// </summary>
-        /// <param name="airlineEntity"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public Task<bool> DeleteAsync(Guid id);
     }

@@ -36,4 +36,11 @@
     <ProjectReference Include="..\FlightBooking.Domain\FlightBooking.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CQRS\Airplanes\Commands\" />
+    <Folder Include="CQRS\Airplanes\CommandHandlers\" />
+    <Folder Include="CQRS\Airplanes\QueryHandlers\" />
+    <Folder Include="CQRS\Airplanes\Queries\" />
+  </ItemGroup>
+
 </Project>
