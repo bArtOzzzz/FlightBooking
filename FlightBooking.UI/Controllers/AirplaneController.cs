@@ -1,12 +1,12 @@
-﻿using AutoMapper;
-using FlightBooking.API.Models.Request;
-using FlightBooking.API.Models.Response;
-using FlightBooking.Application.CQRS.Commands;
+﻿using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
+using FlightBooking.API.Models.Response;
+using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using AutoMapper;
+using MediatR;
 
 namespace FlightBooking.API.Controllers
 {

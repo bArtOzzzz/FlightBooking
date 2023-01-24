@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FlightBooking.Application.Abstractions.IRepositories;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using FlightBooking.Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Dapper;
-using FlightBooking.Application.Abstractions.IRepositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlightBooking.Infrastructure.Repository
 {

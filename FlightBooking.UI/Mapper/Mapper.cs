@@ -44,6 +44,19 @@ namespace FlightBooking.Application.Mapper
 
             CreateMap<AirplaneCreateOrUpdateRequest, AirplaneDto>();
             CreateMap<AirplaneDto, AirplaneCreateOrUpdateRequest>();
+
+
+            CreateMap<BoardingPassEntity, BoardingPassDto>();
+            CreateMap<BoardingPassDto, BoardingPassEntity>();
+
+            CreateMap<BoardingPassDto, BoardingPassResponse>();
+            CreateMap<BoardingPassResponse, BoardingPassDto>();
+
+            CreateMap<BoardingPassCreateRequest, BoardingPassDto>();
+            CreateMap<BoardingPassDto, BoardingPassCreateRequest>();
+
+            CreateMap<BoardingPassUpdateRequest, BoardingPassDto>();
+            CreateMap<BoardingPassDto, BoardingPassUpdateRequest>();
         }
     }
 }

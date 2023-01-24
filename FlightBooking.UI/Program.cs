@@ -43,6 +43,9 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 
     container.RegisterScoped<IAirplaneRepository, AirplaneRepository>();
     container.RegisterScoped<IAirplaneService, AirplaneService>();
+
+    container.RegisterScoped<IBoardingPassRepository, BoardingPassRepository>();
+    container.RegisterScoped<IBoardingPassService, BoardingPassService>();
 });
 
 builder.Services.AddScoped<IValidator<AirlineCreateOrUpdateRequest>, AirlineModelValidator>();
@@ -50,6 +53,8 @@ builder.Services.AddScoped<IValidator<FlightCreateOrUpdateRequest>, FlightModelV
 builder.Services.AddScoped<IValidator<FlightUpdateDescriptionRequest>, FlightUpdateDescriptionValidator>();
 builder.Services.AddScoped<IValidator<FlightUpdateDateInformationRequest>, FlightUpdateDateInformationValidator>();
 builder.Services.AddScoped<IValidator<AirplaneCreateOrUpdateRequest>, AirplaneModelValidator>();
+builder.Services.AddScoped<IValidator<BoardingPassCreateRequest>, BoardingPassCreateValidator>();
+builder.Services.AddScoped<IValidator<BoardingPassUpdateRequest>, BoardingPassUpdateValidator>();
 
 builder.Services.AddSwaggerGen();
 
