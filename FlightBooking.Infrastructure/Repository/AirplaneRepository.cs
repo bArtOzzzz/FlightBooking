@@ -45,7 +45,9 @@ namespace FlightBooking.Infrastructure.Repository
                 Id = Guid.NewGuid(),
                 ModelName = airplane.ModelName,
                 MaximumSeats = airplane.MaximumSeats,
-                MaximumWeight = airplane.MaximumWeight
+                MaximumWeight = airplane.MaximumWeight,
+                CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
+                CreatedTime = DateTime.Now.ToString("HH:m:s")
             };
 
             await _applicationDbContext.AddAsync(airplaneEntity);

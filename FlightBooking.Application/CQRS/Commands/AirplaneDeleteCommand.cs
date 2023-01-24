@@ -2,5 +2,5 @@
 
 namespace FlightBooking.Application.CQRS.Commands
 {
-    public record AirlineDeleteAsyncCommand(Guid Id) : IRequest<bool>;
+    public record class AirplaneDeleteCommand(Guid id) : IRequest<bool>;
 }

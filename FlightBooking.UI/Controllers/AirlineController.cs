@@ -1,5 +1,5 @@
-﻿using FlightBooking.Application.CQRS.Airlines.Commands;
-using FlightBooking.Application.CQRS.Airlines.Queries;
+﻿using FlightBooking.Application.CQRS.Commands;
+using FlightBooking.Application.CQRS.Queries;
 using FlightBooking.API.Models.Response;
 using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;
@@ -62,9 +62,9 @@ namespace FlightBooking.API.Controllers
 
             return Ok(airlineMap);
         }
-        
+
         /// <summary>
-        /// Creates mapping between AirlineResponse and AirlineDto
+        /// Creates mapping between AirlineCreateOrUpdateRequest and AirlineDto
         /// Sends request by MediatR to database for create new airline
         /// Returns the id of the created airline
         /// </summary>
@@ -80,11 +80,11 @@ namespace FlightBooking.API.Controllers
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new AirlineCreateAsyncCommand(airlineMap), default));
+            return Ok(await _mediator.Send(new AirlineCreateCommand(airlineMap), default));
         }
 
         /// <summary>
-        /// Creates mapping between AirlineResponse and AirlineDto
+        /// Creates mapping between AirlineCreateOrUpdateRequest and AirlineDto
         /// Sends request by MediatR to database for update airline
         /// Returns the id of the updated airline
         /// </summary>
@@ -102,7 +102,7 @@ namespace FlightBooking.API.Controllers
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
-            return Ok(await _mediator.Send(new AirlineUpdateAsyncCommand(id, airlineMap)));
+            return Ok(await _mediator.Send(new AirlineUpdateCommand(id, airlineMap)));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FlightBooking.API.Controllers
             if(id.Equals(Guid.Empty))
                 return NotFound();
 
-            await _mediator.Send(new AirlineDeleteAsyncCommand(id));
+            await _mediator.Send(new AirlineDeleteCommand(id));
 
             return NoContent();
         }

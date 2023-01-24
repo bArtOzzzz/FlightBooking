@@ -3,5 +3,5 @@ using MediatR;
 
 namespace FlightBooking.Application.CQRS.Commands
 {
-    public record AirlineCreateAsyncCommand(AirlineDto AirlineDto) : IRequest<Guid>;
+    public record class AirplaneUpdateCommand(Guid id, AirplaneDto AirplaneDto) : IRequest<Guid>;
 }

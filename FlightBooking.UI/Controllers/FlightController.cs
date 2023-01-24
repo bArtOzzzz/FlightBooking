@@ -1,5 +1,5 @@
-﻿using FlightBooking.Application.CQRS.Flights.Commands;
-using FlightBooking.Application.CQRS.Flights.Queries;
+﻿using FlightBooking.Application.CQRS.Commands;
+using FlightBooking.Application.CQRS.Queries;
 using FlightBooking.API.Models.Response;
 using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;

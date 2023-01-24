@@ -1,8 +1,8 @@
 using FlightBooking.Application.Abstractions.IRepositories;
 using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Abstractions.IServices;
-using FlightBooking.Application.CQRS.Airlines.Queries;
 using FlightBooking.Infrastructure.Repository;
+using FlightBooking.Application.CQRS.Queries;
 using FlightBooking.Application.Services;
 using FlightBooking.Application.Mapper;
 using FlightBooking.API.Models.Request;
@@ -49,10 +49,11 @@ builder.Services.AddScoped<IValidator<AirlineCreateOrUpdateRequest>, AirlineMode
 builder.Services.AddScoped<IValidator<FlightCreateOrUpdateRequest>, FlightModelValidator>();
 builder.Services.AddScoped<IValidator<FlightUpdateDescriptionRequest>, FlightUpdateDescriptionValidator>();
 builder.Services.AddScoped<IValidator<FlightUpdateDateInformationRequest>, FlightUpdateDateInformationValidator>();
+builder.Services.AddScoped<IValidator<AirplaneCreateOrUpdateRequest>, AirplaneModelValidator>();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMediatR(typeof(GetAllAsyncQuery).Assembly);
+builder.Services.AddMediatR(typeof(AirlineGetAllQuery).Assembly);
  
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

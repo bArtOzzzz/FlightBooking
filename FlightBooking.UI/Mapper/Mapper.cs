@@ -38,6 +38,12 @@ namespace FlightBooking.Application.Mapper
 
             CreateMap<AirplaneEntity, AirplaneDto>();
             CreateMap<AirplaneDto, AirplaneEntity>();
+
+            CreateMap<AirplaneDto, AirplaneResponse>();
+            CreateMap<AirplaneResponse, AirplaneDto>();
+
+            CreateMap<AirplaneCreateOrUpdateRequest, AirplaneDto>();
+            CreateMap<AirplaneDto, AirplaneCreateOrUpdateRequest>();
         }
     }
 }

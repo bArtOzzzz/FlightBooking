@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using FlightBooking.Application.Abstractions.IRepositories;
+﻿using FlightBooking.Application.Abstractions.IRepositories;
 using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.Dto;
 using FlightBooking.Domain.Entities;
+using AutoMapper;
 
 namespace FlightBooking.Application.Services
 {
