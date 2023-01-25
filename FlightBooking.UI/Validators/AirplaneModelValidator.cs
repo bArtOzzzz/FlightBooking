@@ -7,7 +7,7 @@ namespace FlightBooking.API.Validators
     {
         public AirplaneModelValidator()
         {
-            RuleFor(a => a.ModelName).Length(3, 33).WithMessage("Length should be 3 to 22 characters");
+            RuleFor(a => a.ModelName).Length(3, 33).WithMessage("Length should be 3 to 33 characters");
 
             RuleFor(a => a.MaximumSeats).InclusiveBetween(1, 999).WithMessage("Amount of seats should be in range from 1 to 999");
 

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightBooking.Domain", "Fli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightBooking.Infrastructure", "FlightBooking.Infrastructure\FlightBooking.Infrastructure.csproj", "{48FB020E-BC91-41B1-A76B-E3F8A4BAAD33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightBooking.Test", "FlightBooking.Test\FlightBooking.Test.csproj", "{7CA7CB65-9304-4E97-B83D-C71A753D1253}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightBooking.Test", "FlightBooking.Test\FlightBooking.Test.csproj", "{7CA7CB65-9304-4E97-B83D-C71A753D1253}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

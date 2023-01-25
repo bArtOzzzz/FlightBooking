@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -9,7 +8,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FlightBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    [ExcludeFromCodeCoverage]
     public partial class FlightBookingMigration : Migration
     {
         /// <inheritdoc />
@@ -152,9 +150,9 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "AirlineName", "CreatedDate", "CreatedTime", "Rating" },
                 values: new object[,]
                 {
-                    { new Guid("078249c5-d887-4e17-966f-bbe1838b36f2"), "American Airlines", "01-13-23", "11:35:31", 4.7000000000000002 },
-                    { new Guid("5d114b2f-3dd0-4798-91b2-480bb3a51ced"), "Belavia", "01-13-23", "11:35:31", 4.2999999999999998 },
-                    { new Guid("ad13f8da-9fb1-4b78-ae4a-9c5209b9ea8b"), "Airnorth", "01-13-23", "11:35:31", 3.8999999999999999 }
+                    { new Guid("3c8c69b4-c5f7-420c-ad9a-f35cab7bd0cf"), "Belavia", "01-25-23", "12:4:17", 4.2999999999999998 },
+                    { new Guid("96e1738a-568d-4a23-be7d-f2f3382f1cf9"), "American Airlines", "01-25-23", "12:4:17", 4.7000000000000002 },
+                    { new Guid("b01e92b9-2c8b-4437-b290-eae73e1017f0"), "Airnorth", "01-25-23", "12:4:17", 3.8999999999999999 }
                 });
 
             migrationBuilder.InsertData(
@@ -162,13 +160,13 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedDate", "CreatedTime", "MaximumSeats", "MaximumWeight", "ModelName" },
                 values: new object[,]
                 {
-                    { new Guid("00bbcc7d-784a-4be4-8f92-3cbe95875e8c"), "01-13-23", "11:35:31", 525, 46750, "ATR EVO" },
-                    { new Guid("1bc34e17-572b-45fa-93db-d5d155930fec"), "01-13-23", "11:35:31", 300, 31000, "Airbus A350" },
-                    { new Guid("44033746-83fa-4729-b217-a07cac635358"), "01-13-23", "11:35:31", 320, 32400, "CRIAC CR929" },
-                    { new Guid("87cad132-b126-4094-8341-c5c4c050a76c"), "01-13-23", "11:35:31", 125, 35600, "Airbus A220" },
-                    { new Guid("c4b29207-26bf-4fcf-b082-68013a355703"), "01-13-23", "11:35:31", 180, 22600, "Comac C919" },
-                    { new Guid("e54eea91-63bd-4b8e-acac-cee3c240531a"), "01-13-23", "11:35:31", 150, 22600, "Comac C919" },
-                    { new Guid("ec992954-1dd0-47ed-9c3a-3d332007664f"), "01-13-23", "11:35:31", 525, 46750, "ATR EVO" }
+                    { new Guid("032df96e-9d2b-4321-a8f0-c5ab1d062b76"), "01-25-23", "12:4:17", 150, 22600, "Comac C919" },
+                    { new Guid("21e5d331-780f-439c-9060-96bf96d31e27"), "01-25-23", "12:4:17", 300, 31000, "Airbus A350" },
+                    { new Guid("44dcfa17-b97d-4bd9-828b-ab498f565c9d"), "01-25-23", "12:4:17", 525, 46750, "ATR EVO" },
+                    { new Guid("50331fce-d5f5-494e-97ba-b89909601281"), "01-25-23", "12:4:17", 180, 22600, "Comac C919" },
+                    { new Guid("6f39bb24-d2ef-4383-872d-abb02751ca7f"), "01-25-23", "12:4:17", 525, 46750, "ATR EVO" },
+                    { new Guid("7793ab1b-7600-4734-8139-64d7ed41d367"), "01-25-23", "12:4:17", 125, 35600, "Airbus A220" },
+                    { new Guid("b642faa8-115d-4eeb-88e6-74e7c5eeca7a"), "01-25-23", "12:4:17", 320, 32400, "CRIAC CR929" }
                 });
 
             migrationBuilder.InsertData(
@@ -176,9 +174,9 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedDate", "CreatedTime" },
                 values: new object[,]
                 {
-                    { new Guid("0f54863e-733b-47a4-87dd-2fdb494b2cd4"), "01-13-23", "11:35:31" },
-                    { new Guid("40e28ec4-a526-4330-b333-d70627c2d8ef"), "01-13-23", "11:35:31" },
-                    { new Guid("997bd07f-65ab-4eca-a95e-3dda96f315de"), "01-13-23", "11:35:31" }
+                    { new Guid("5071c449-d4ed-4b35-9aff-8bbbda78be2b"), "01-25-23", "12:4:17" },
+                    { new Guid("6d0b4263-c3ab-4c84-8f42-7abda64789b9"), "01-25-23", "12:4:17" },
+                    { new Guid("ed7a6b39-79e8-43a4-b7cf-96d0d16df0d3"), "01-25-23", "12:4:17" }
                 });
 
             migrationBuilder.InsertData(
@@ -186,10 +184,10 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "AirlineId", "AirplaneId", "Arrival", "ArrivingDate", "CreatedDate", "CreatedTime", "DepartureDate", "Departurer" },
                 values: new object[,]
                 {
-                    { new Guid("05511a7b-3d32-4e15-8479-0d835486fd9e"), new Guid("078249c5-d887-4e17-966f-bbe1838b36f2"), new Guid("c4b29207-26bf-4fcf-b082-68013a355703"), "Mykonos", new DateTime(2023, 3, 23, 11, 15, 0, 0, DateTimeKind.Unspecified), "01-13-23", "11:35:31", new DateTime(2023, 3, 20, 20, 55, 0, 0, DateTimeKind.Unspecified), "Singapore" },
-                    { new Guid("1fc32289-4054-4135-891c-38d104c23043"), new Guid("ad13f8da-9fb1-4b78-ae4a-9c5209b9ea8b"), new Guid("87cad132-b126-4094-8341-c5c4c050a76c"), "yaunde", new DateTime(2023, 7, 6, 3, 50, 0, 0, DateTimeKind.Unspecified), "01-13-23", "11:35:31", new DateTime(2023, 7, 3, 6, 50, 0, 0, DateTimeKind.Unspecified), "frankfurt" },
-                    { new Guid("570ed468-e2e6-4434-885b-918b957c1a4e"), new Guid("5d114b2f-3dd0-4798-91b2-480bb3a51ced"), new Guid("00bbcc7d-784a-4be4-8f92-3cbe95875e8c"), "Boston", new DateTime(2023, 2, 19, 18, 20, 0, 0, DateTimeKind.Unspecified), "01-13-23", "11:35:31", new DateTime(2023, 2, 17, 22, 15, 0, 0, DateTimeKind.Unspecified), "Minsk" },
-                    { new Guid("809a16aa-d678-4c27-8981-0e525d140ba8"), new Guid("5d114b2f-3dd0-4798-91b2-480bb3a51ced"), new Guid("44033746-83fa-4729-b217-a07cac635358"), "Paris", new DateTime(2023, 5, 13, 18, 55, 0, 0, DateTimeKind.Unspecified), "01-13-23", "11:35:31", new DateTime(2023, 5, 13, 10, 30, 0, 0, DateTimeKind.Unspecified), "Pekin" }
+                    { new Guid("46797e84-5438-41e4-b36f-e68744fbf290"), new Guid("3c8c69b4-c5f7-420c-ad9a-f35cab7bd0cf"), new Guid("b642faa8-115d-4eeb-88e6-74e7c5eeca7a"), "Paris", new DateTime(2023, 5, 13, 18, 55, 0, 0, DateTimeKind.Unspecified), "01-25-23", "12:4:17", new DateTime(2023, 5, 13, 10, 30, 0, 0, DateTimeKind.Unspecified), "Pekin" },
+                    { new Guid("48c30f5d-cfef-428b-bfdf-a7650e7cec6f"), new Guid("3c8c69b4-c5f7-420c-ad9a-f35cab7bd0cf"), new Guid("44dcfa17-b97d-4bd9-828b-ab498f565c9d"), "Boston", new DateTime(2023, 2, 19, 18, 20, 0, 0, DateTimeKind.Unspecified), "01-25-23", "12:4:17", new DateTime(2023, 2, 17, 22, 15, 0, 0, DateTimeKind.Unspecified), "Minsk" },
+                    { new Guid("96209a9d-78f8-4d7f-9adb-3f8b4c747066"), new Guid("96e1738a-568d-4a23-be7d-f2f3382f1cf9"), new Guid("50331fce-d5f5-494e-97ba-b89909601281"), "Mykonos", new DateTime(2023, 3, 23, 11, 15, 0, 0, DateTimeKind.Unspecified), "01-25-23", "12:4:17", new DateTime(2023, 3, 20, 20, 55, 0, 0, DateTimeKind.Unspecified), "Singapore" },
+                    { new Guid("d687cb42-a4b4-4df9-ba34-634bd8c87983"), new Guid("b01e92b9-2c8b-4437-b290-eae73e1017f0"), new Guid("7793ab1b-7600-4734-8139-64d7ed41d367"), "yaunde", new DateTime(2023, 7, 6, 3, 50, 0, 0, DateTimeKind.Unspecified), "01-25-23", "12:4:17", new DateTime(2023, 7, 3, 6, 50, 0, 0, DateTimeKind.Unspecified), "frankfurt" }
                 });
 
             migrationBuilder.InsertData(
@@ -197,9 +195,9 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "BirthDate", "Citizenship", "CreatedDate", "CreatedTime", "ExpirePasportDate", "Gender", "IdentificationNumber", "Name", "Surname", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("b91ac85a-5c34-458c-9629-df48ed67f4a0"), new DateTime(1993, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "America", "01-13-23", "11:35:31", new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "М", "2763984J836PB3", "Владислав", "Лазарев", new Guid("997bd07f-65ab-4eca-a95e-3dda96f315de") },
-                    { new Guid("feb76b82-21dc-4f8b-9a8d-f230bf702030"), new DateTime(1983, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "Belarus", "01-13-23", "11:35:31", new DateTime(2027, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "М", "2763984J836PB3", "Александр", "Иванов", new Guid("0f54863e-733b-47a4-87dd-2fdb494b2cd4") },
-                    { new Guid("ff731ca0-da40-4c14-9fdf-1e32f6916fab"), new DateTime(1998, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Poland", "01-13-23", "11:35:31", new DateTime(2025, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ж", "2763984J836PB3", "Мария", "Лебедева", new Guid("40e28ec4-a526-4330-b333-d70627c2d8ef") }
+                    { new Guid("05b231a2-c31d-4dfc-955a-6097102b1456"), new DateTime(1993, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "America", "01-25-23", "12:4:17", new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "М", "2763984J836PB3", "Владислав", "Лазарев", new Guid("6d0b4263-c3ab-4c84-8f42-7abda64789b9") },
+                    { new Guid("257fa5d1-d5b0-4faf-af1a-0185b3cfefab"), new DateTime(1983, 3, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "Belarus", "01-25-23", "12:4:17", new DateTime(2027, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "М", "2763984J836PB3", "Александр", "Иванов", new Guid("5071c449-d4ed-4b35-9aff-8bbbda78be2b") },
+                    { new Guid("e72b6d0c-a0ba-471a-bf43-cabca8ebbaf6"), new DateTime(1998, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Poland", "01-25-23", "12:4:17", new DateTime(2025, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ж", "2763984J836PB3", "Мария", "Лебедева", new Guid("ed7a6b39-79e8-43a4-b7cf-96d0d16df0d3") }
                 });
 
             migrationBuilder.InsertData(
@@ -207,10 +205,10 @@ namespace FlightBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "BookingExpireDate", "CreatedDate", "CreatedTime", "FlightId", "Prise", "UserId", "isExpired" },
                 values: new object[,]
                 {
-                    { new Guid("2d4d18b0-16c6-4438-852c-28b0082e84a9"), new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "03-16-23", "15:22:48", new Guid("1fc32289-4054-4135-891c-38d104c23043"), 1401m, new Guid("40e28ec4-a526-4330-b333-d70627c2d8ef"), false },
-                    { new Guid("73826c33-1e84-4f44-937d-e45842b51d3f"), new DateTime(2023, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), "07-24-23", "19:36:16", new Guid("05511a7b-3d32-4e15-8479-0d835486fd9e"), 1672m, new Guid("997bd07f-65ab-4eca-a95e-3dda96f315de"), false },
-                    { new Guid("73a30765-7117-4ea7-aee1-a64e211d7261"), new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "05-12-23", "12:17:3", new Guid("570ed468-e2e6-4434-885b-918b957c1a4e"), 778m, new Guid("0f54863e-733b-47a4-87dd-2fdb494b2cd4"), false },
-                    { new Guid("a071cb0d-0646-4878-82fb-df847c9a24ce"), new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "02-06-23", "08:43:17", new Guid("809a16aa-d678-4c27-8981-0e525d140ba8"), 1661m, new Guid("0f54863e-733b-47a4-87dd-2fdb494b2cd4"), false }
+                    { new Guid("5ace6361-4908-4dff-8d6e-7201ae071ae3"), new DateTime(2023, 3, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "03-16-23", "15:22:48", new Guid("d687cb42-a4b4-4df9-ba34-634bd8c87983"), 1401m, new Guid("ed7a6b39-79e8-43a4-b7cf-96d0d16df0d3"), false },
+                    { new Guid("5b646986-d9f8-4cee-b080-c22cfa9115e9"), new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "05-12-23", "12:17:3", new Guid("48c30f5d-cfef-428b-bfdf-a7650e7cec6f"), 778m, new Guid("5071c449-d4ed-4b35-9aff-8bbbda78be2b"), false },
+                    { new Guid("bada3bb6-0621-4f09-8ada-07bfcc0b4de3"), new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "02-06-23", "08:43:17", new Guid("46797e84-5438-41e4-b36f-e68744fbf290"), 1661m, new Guid("5071c449-d4ed-4b35-9aff-8bbbda78be2b"), false },
+                    { new Guid("c2ccfc2c-76c5-454c-9ad7-a51127023ca2"), new DateTime(2023, 7, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), "07-24-23", "19:36:16", new Guid("96209a9d-78f8-4d7f-9adb-3f8b4c747066"), 1672m, new Guid("6d0b4263-c3ab-4c84-8f42-7abda64789b9"), false }
                 });
 
             migrationBuilder.CreateIndex(

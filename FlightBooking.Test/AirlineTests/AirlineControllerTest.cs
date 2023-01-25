@@ -106,7 +106,7 @@ namespace FlightBooking.Test.AirlineTests
             // Arrange
             var expectedResponse = _mapper.Map<AirlineResponse>(_airlineDtoFixture);
 
-            _mockMediator.Setup(m => m.Send(new GetByIdAsyncQuery(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new AirlineGetByIdQuery(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(_airlineDtoFixture);
 
             // Act
@@ -139,7 +139,7 @@ namespace FlightBooking.Test.AirlineTests
         private async Task GetByIdAsync_WhenControllerRequestIsEmpty_Returns_NotFoundResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new GetByIdAsyncQuery(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new AirlineGetByIdQuery(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(_airlineDtoFixture);
 
             // Act
@@ -184,7 +184,7 @@ namespace FlightBooking.Test.AirlineTests
         private async Task UpdateAsync_OnSuccsess_Returns_RightType_And_OkResult()
         {
             // Arrange
-            _mockMediator.Setup(m => m.Send(new UpdateAsyncCommand(_airlineDtoFixture.Id, _airlineDtoFixture), default))
+            _mockMediator.Setup(m => m.Send(new AirlineUpdateCommand(_airlineDtoFixture.Id, _airlineDtoFixture), default))
                          .ReturnsAsync(_airlineDtoFixture.Id);
 
             // Act
@@ -239,7 +239,7 @@ namespace FlightBooking.Test.AirlineTests
             _airlineDtoFixture.Id = Guid.Empty;
 
             // Arrange
-            _mockMediator.Setup(m => m.Send(new DeleteAsyncCommand(_airlineDtoFixture.Id), default))
+            _mockMediator.Setup(m => m.Send(new AirlineDeleteCommand(_airlineDtoFixture.Id), default))
                          .ReturnsAsync(true);
 
             // Act

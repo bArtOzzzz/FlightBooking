@@ -46,6 +46,12 @@ builder.Host.UseStashbox(container => // Optional configuration options.
 
     container.RegisterScoped<IBoardingPassRepository, BoardingPassRepository>();
     container.RegisterScoped<IBoardingPassService, BoardingPassService>();
+
+    container.RegisterScoped<IUserRepository, UserRepository>();
+    container.RegisterScoped<IUserService, UserService>();
+
+    container.RegisterScoped<IPersonInformationRepository, PersonInformationRepository>();
+    container.RegisterScoped<IPersonInformationService, PersonInformationService>();
 });
 
 builder.Services.AddScoped<IValidator<AirlineCreateOrUpdateRequest>, AirlineModelValidator>();
@@ -55,6 +61,7 @@ builder.Services.AddScoped<IValidator<FlightUpdateDateInformationRequest>, Fligh
 builder.Services.AddScoped<IValidator<AirplaneCreateOrUpdateRequest>, AirplaneModelValidator>();
 builder.Services.AddScoped<IValidator<BoardingPassCreateRequest>, BoardingPassCreateValidator>();
 builder.Services.AddScoped<IValidator<BoardingPassUpdateRequest>, BoardingPassUpdateValidator>();
+builder.Services.AddScoped<IValidator<PersonInformationCreateOrUpdateRequest>, PersonInformationModelValidator>();
 
 builder.Services.AddSwaggerGen();
 
@@ -63,7 +70,7 @@ builder.Services.AddMediatR(typeof(AirlineGetAllQuery).Assembly);
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration["DefaultConnectionToLocalDatabase"], b => b.MigrationsAssembly("FlightBooking.Infrastructure"));
+    options.UseSqlServer(builder.Configuration["DefaultConnectionToLocalDatabase"]);
 });
 
 var app = builder.Build();

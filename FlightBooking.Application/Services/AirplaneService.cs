@@ -45,9 +45,9 @@ namespace FlightBooking.Application.Services
             return await _airplaneRepository.UpdateAsync(id, airplaneEntity);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            return _airplaneRepository.DeleteAsync(id);
+            return await _airplaneRepository.DeleteAsync(id);
         }
     }
 }
