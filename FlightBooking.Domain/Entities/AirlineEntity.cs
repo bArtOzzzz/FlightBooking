@@ -1,8 +1,9 @@
-﻿namespace FlightBooking.Domain.Entities
+﻿using FlightBooking.Domain.Abstraction;
+
+namespace FlightBooking.Domain.Entities
 {
-    public class AirlineEntity
+    public class AirlineEntity : BaseEntity
     {
-        public Guid Id { get; set; }
         public string? AirlineName { get; set; }
         public double Rating { get; set; }
         public List<FlightEntity>? Flights { get; set; }

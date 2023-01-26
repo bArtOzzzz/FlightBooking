@@ -1,16 +1,17 @@
-﻿namespace FlightBooking.Domain.Entities
+﻿using FlightBooking.Domain.Abstraction;
+
+namespace FlightBooking.Domain.Entities
 {
-    public class FlightEntity
+    public class FlightEntity : BaseEntity
     {
-        public Guid Id { get; set; }
         public Guid AirlineId { get; set; }
         public Guid AirplaneId { get; set; }
         public string? Departurer { get; set; }
         public string? Arrival { get; set; }
-        public DateTime DepartureDay { get; set; }
-        public DateTime DepareingAt { get; set; }
-        public DateTime ArrivingAt { get; set; }
+        public DateTime DepartureDate { get; set; }
+        public DateTime ArrivingDate { get; set; }
         public AirlineEntity? Airlines { get; set;}
         public AirplaneEntity? Airplane { get; set; }
+        public List<BoardingPassEntity>? BoardingPasses { get; set; }
     }
 }
