@@ -1,5 +1,6 @@
-﻿using FlightBooking.API.Models.Response;
-using FlightBooking.Application.Mapper;
+﻿using FlightBooking.Application.CQRS.Commands;
+using FlightBooking.Application.CQRS.Queries;
+using FlightBooking.API.Models.Response;
 using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;
 using FlightBooking.API.Controllers;
@@ -11,8 +12,6 @@ using AutoMapper;
 using MediatR;
 using Xunit;
 using Moq;
-using FlightBooking.Application.CQRS.Commands;
-using FlightBooking.Application.CQRS.Queries;
 
 namespace FlightBooking.Test.AirlineTests
 {

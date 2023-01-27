@@ -74,6 +74,10 @@ namespace FlightBooking.Application.Mapper
 
             CreateMap<PersonInformationDto, PersonInformationCreateOrUpdateRequest>();
             CreateMap<PersonInformationCreateOrUpdateRequest, PersonInformationDto>();
+
+
+            CreateMap<DateTime, string>();
+            CreateMap<string, DateTime>();
         }
     }
 }

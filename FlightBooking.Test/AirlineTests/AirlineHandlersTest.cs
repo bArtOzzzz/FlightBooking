@@ -1,13 +1,13 @@
 ﻿using FlightBooking.Application.Abstractions.IServices;
+using FlightBooking.Application.CQRS.CommandHandlers;
+using FlightBooking.Application.CQRS.QueryHandlers;
+using FlightBooking.Application.CQRS.Commands;
+using FlightBooking.Application.CQRS.Queries;
 using FlightBooking.Application.Dto;
 using FluentAssertions;
 using AutoFixture;
 using Xunit;
 using Moq;
-using FlightBooking.Application.CQRS.Queries;
-using FlightBooking.Application.CQRS.QueryHandlers;
-using FlightBooking.Application.CQRS.Commands;
-using FlightBooking.Application.CQRS.CommandHandlers;
 
 namespace FlightBooking.Test.AirlineTests
 {

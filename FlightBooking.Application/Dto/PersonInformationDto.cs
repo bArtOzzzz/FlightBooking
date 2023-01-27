@@ -2,6 +2,7 @@
 {
     public class PersonInformationDto
     {
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string? Citizenship { get; set; }
         public string? IdentificationNumber { get; set; }

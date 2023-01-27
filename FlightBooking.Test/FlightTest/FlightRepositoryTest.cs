@@ -1,24 +1,24 @@
-﻿using Dapper;
-using FlightBooking.Domain.Entities;
-using FlightBooking.Infrastructure;
+﻿using FlightBooking.Domain.Entities;
 using FlightBooking.Infrastructure.Repository;
-using FluentAssertions;
+using FlightBooking.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Moq;
-using Moq.Dapper;
 using System.Data.Common;
 using Xunit;
+using Microsoft.Extensions.Configuration;
+using Moq.Dapper;
+using Dapper;
+using FluentAssertions;
 
-namespace FlightBooking.Test.AirlineTests
+namespace FlightBooking.Test.FlightTest
 {
-    public class AirlineRepositoryTest
+    public class FlightRepositoryTest
     {
-        private AirlineRepository _airlineRepository;
+        private FlightRepository _flightRepository;
 
         private readonly Mock<IConfiguration> _mockConfiguration;
 
-        public AirlineRepositoryTest()
+        public FlightRepositoryTest()
         {
             _mockConfiguration = new Mock<IConfiguration>();
 
@@ -26,7 +26,7 @@ namespace FlightBooking.Test.AirlineTests
                .UseInMemoryDatabase("FlightBookingDb");
 
             var context = new ApplicationDbContext(optionBuilder.Options);
-            _airlineRepository = new AirlineRepository(context, _mockConfiguration.Object);
+            _flightRepository = new FlightRepository(context, _mockConfiguration.Object);
         }
 
         [Fact]
@@ -34,34 +34,30 @@ namespace FlightBooking.Test.AirlineTests
         {
             // Arrange
             var connection = new Mock<DbConnection>();
-            var expected = new List<AirlineEntity>() {
-                new AirlineEntity
+            var expected = new List<FlightEntity>() {
+                new FlightEntity
                 {
                     Id = Guid.NewGuid(),
-                    AirlineName = "Belavia",
-                    Rating = 4.3,
                     CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
                     CreatedTime = DateTime.Now.ToString("HH:m:s")
                 },
 
-                new AirlineEntity
+                new FlightEntity
                 {
                     Id = Guid.NewGuid(),
-                    AirlineName = "American Airlines",
-                    Rating = 4.7,
                     CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
                     CreatedTime = DateTime.Now.ToString("HH:m:s")
                 },
             };
 
-            connection.SetupDapperAsync(c => c.QueryAsync<AirlineEntity>(It.IsAny<string>(), null, null, null, null))
+            connection.SetupDapperAsync(c => c.QueryAsync<FlightEntity>(It.IsAny<string>(), null, null, null, null))
                       .ReturnsAsync(expected);
 
             // Act
-            var result = (await connection.Object.QueryAsync<AirlineEntity>("", null, null, null, null)).ToList();
+            var result = (await connection.Object.QueryAsync<FlightEntity>("", null, null, null, null)).ToList();
 
             // Assert
-            result.Should().BeOfType<List<AirlineEntity>>();
+            result.Should().BeOfType<List<FlightEntity>>();
             result.Should().HaveCount(2);
             result[0].Should().BeEquivalentTo(expected[0]);
         }
@@ -71,7 +67,7 @@ namespace FlightBooking.Test.AirlineTests
         {
             var connection = new Mock<DbConnection>();
 
-            AirlineEntity expected = new AirlineEntity();
+            FlightEntity expected = new FlightEntity();
 
             connection.SetupDapperAsync(c => c.ExecuteScalarAsync<object>(It.IsAny<string>(), null, null, null, null))
                       .ReturnsAsync(expected);
@@ -80,7 +76,7 @@ namespace FlightBooking.Test.AirlineTests
                                           .GetAwaiter()
                                           .GetResult();
 
-            result.Should().BeOfType<AirlineEntity>();
+            result.Should().BeOfType<FlightEntity>();
             result.Should().BeEquivalentTo(expected);
         }
 
@@ -88,14 +84,15 @@ namespace FlightBooking.Test.AirlineTests
         private async Task CreateAsync_OnSuccess_Returns_CompletedResult()
         {
             // Arrange
-            var airlineEntity = new AirlineEntity()
+            var flightEntity = new FlightEntity()
             {
-                AirlineName = "Belavia",
-                Rating = 4.3
+                Id = Guid.NewGuid(),
+                CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
+                CreatedTime = DateTime.Now.ToString("HH:m:s")
             };
 
             // Act
-            var result = await _airlineRepository.CreateAsync(airlineEntity);
+            var result = await _flightRepository.CreateAsync(flightEntity);
 
             // Assert
             result.Should().NotBeEmpty();
@@ -105,17 +102,15 @@ namespace FlightBooking.Test.AirlineTests
         private async Task UpdateAsync_OnSuccess_Returns_CompletedResult()
         {
             // Arrange
-            var airlineEntity = new AirlineEntity()
+            var flightEntity = new FlightEntity()
             {
-                Id = new Guid("b01e92b9-2c8b-4437-b290-eae73e1017f0"),
-                AirlineName = "Belavia",
-                Rating = 4.3,
+                Id = new Guid("466c45a1-64e2-47a8-a71a-821220ce0a33"),
                 CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
                 CreatedTime = DateTime.Now.ToString("HH:m:s")
             };
 
             // Act
-            var result = await _airlineRepository.UpdateAsync(airlineEntity.Id, airlineEntity);
+            var result = await _flightRepository.UpdateAsync(flightEntity.Id, flightEntity);
 
             // Assert
             result.Should().NotBeEmpty();
@@ -124,18 +119,8 @@ namespace FlightBooking.Test.AirlineTests
         [Fact]
         private async Task DeleteAsync_OnSuccess_Returns_CompletedResult()
         {
-            // Arrange
-            var airlineEntity = new AirlineEntity()
-            {
-                Id = new Guid("96e1738a-568d-4a23-be7d-f2f3382f1cf9"),
-                AirlineName = "Belavia",
-                Rating = 4.3,
-                CreatedDate = DateTime.Now.ToString("MM-dd-yy"),
-                CreatedTime = DateTime.Now.ToString("HH:m:s")
-            };
-
             // Act
-            var result = await _airlineRepository.DeleteAsync(airlineEntity.Id);
+            var result = await _flightRepository.DeleteAsync(new Guid("1506eaca-34cc-4ed1-9060-4b6075139e42"));
 
             // Assert
             result.Should().BeTrue();

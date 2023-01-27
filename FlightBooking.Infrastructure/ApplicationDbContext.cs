@@ -31,8 +31,8 @@ namespace FlightBooking.Infrastructure
                                         Guid.NewGuid(),
                                         Guid.NewGuid(),
                                         Guid.NewGuid(),
-                                        Guid.NewGuid(),
-                                        Guid.NewGuid() };
+                                        new Guid("01a36c70-36c0-4e14-8215-8388832d606d"),
+                                        new Guid("e06a3365-9b53-458f-b052-ba96aff94e5b") };
 
             Guid[] GuidUserArr = { Guid.NewGuid(),
                                    Guid.NewGuid(),
@@ -40,8 +40,12 @@ namespace FlightBooking.Infrastructure
 
             Guid[] GuidFlightArr = { Guid.NewGuid(),
                                      Guid.NewGuid(),
-                                     Guid.NewGuid(),
-                                     Guid.NewGuid() };
+                                     new Guid("1506eaca-34cc-4ed1-9060-4b6075139e42"),
+                                     new Guid("466c45a1-64e2-47a8-a71a-821220ce0a33") };
+
+            Guid[] GuidPersonInformationArr = { new Guid("b568d785-5542-406e-81ad-63c38b7e01f5"),
+                                                new Guid("1da87518-fb76-421b-9d01-01e8fa5a2af4") };
+
             #endregion
 
             #region Relationships configuration
@@ -211,7 +215,7 @@ namespace FlightBooking.Infrastructure
             modelBuilder.Entity<PersonInformationEntity>().HasData(
                 new PersonInformationEntity
                 {
-                    Id = Guid.NewGuid(),
+                    Id = GuidPersonInformationArr[0],
                     UserId = GuidUserArr[0],
                     Citizenship = "Belarus",
                     IdentificationNumber = "2763984J836PB3",
@@ -226,7 +230,7 @@ namespace FlightBooking.Infrastructure
 
                 new PersonInformationEntity
                 {
-                    Id = Guid.NewGuid(),
+                    Id = GuidPersonInformationArr[1],
                     UserId = GuidUserArr[1],
                     Citizenship = "America",
                     IdentificationNumber = "2763984J836PB3",
