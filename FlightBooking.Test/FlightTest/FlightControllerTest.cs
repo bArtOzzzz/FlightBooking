@@ -1,17 +1,17 @@
-﻿using AutoFixture;
-using AutoMapper;
-using FlightBooking.API.Controllers;
-using FlightBooking.API.Models.Request;
-using FlightBooking.API.Models.Response;
-using FlightBooking.Application.CQRS.Commands;
+﻿using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
+using FlightBooking.API.Models.Response;
+using FlightBooking.API.Models.Request;
+using FlightBooking.API.Controllers;
 using FlightBooking.Application.Dto;
+using Microsoft.AspNetCore.Mvc;
 using FluentAssertions;
 using FluentValidation;
+using AutoFixture;
+using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.FlightTest
 {

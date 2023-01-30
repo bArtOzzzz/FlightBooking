@@ -1,14 +1,14 @@
-﻿using FlightBooking.Domain.Entities;
-using FlightBooking.Infrastructure.Repository;
-using FlightBooking.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using System.Data.Common;
-using Xunit;
+﻿using FlightBooking.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using FlightBooking.Domain.Entities;
+using FlightBooking.Infrastructure;
+using System.Data.Common;
+using FluentAssertions;
 using Moq.Dapper;
 using Dapper;
-using FluentAssertions;
+using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.PersonInformationTest
 {

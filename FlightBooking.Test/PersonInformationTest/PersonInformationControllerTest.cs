@@ -1,17 +1,17 @@
-﻿using AutoFixture;
-using AutoMapper;
-using FlightBooking.API.Controllers;
-using FlightBooking.API.Models.Request;
-using FlightBooking.API.Models.Response;
-using FlightBooking.Application.CQRS.Commands;
+﻿using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
+using FlightBooking.API.Models.Response;
+using FlightBooking.API.Models.Request;
 using FlightBooking.Application.Dto;
+using FlightBooking.API.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using FluentAssertions;
 using FluentValidation;
+using AutoFixture;
+using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.PersonInformationTest
 {
@@ -112,9 +112,9 @@ namespace FlightBooking.Test.PersonInformationTest
             var result = (ObjectResult)await _personInformationController.GetByIdAsync(_personInformationDtoFixture.Id);
 
             // Assert
+            result.Should().BeOfType<OkObjectResult>();
             result.Value.Should().BeOfType<PersonInformationResponse>();
             result.Value.Should().BeEquivalentTo(expectedResponse);
-            result.Should().BeOfType<OkObjectResult>();
 
             _mockMediator.Verify(x => x.Send(It.IsAny<PersonInformationGetByIdQuery>(), default), Times.Once);
         }
@@ -212,8 +212,8 @@ namespace FlightBooking.Test.PersonInformationTest
             var result = (ObjectResult)await _personInformationController.UpdateAsync(_personInformationDtoFixture.Id, personInformationCreateOrUpdateRequest);
 
             // Assert
-            result.Value.Should().BeOfType<Guid>();
             result.Should().BeOfType<OkObjectResult>();
+            result.Value.Should().BeOfType<Guid>();
 
             _mockMediator.Verify(x => x.Send(It.IsAny<PersonInformationUpdateCommand>(), default), Times.Once);
         }

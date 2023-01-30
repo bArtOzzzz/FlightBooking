@@ -1,11 +1,11 @@
-﻿using AutoFixture;
-using FlightBooking.Application.Abstractions.IServices;
-using FlightBooking.Application.CQRS.Queries;
+﻿using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.QueryHandlers;
+using FlightBooking.Application.CQRS.Queries;
 using FlightBooking.Application.Dto;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.UserTest
 {
@@ -41,7 +41,6 @@ namespace FlightBooking.Test.UserTest
 
             // Assert
             result.Should().BeOfType<List<UserDto>>();
-            result.Should().HaveCount(3);
             result.Should().BeEquivalentTo(_usersDtosListFixture);
 
             _mockUserService.Verify(a => a.GetAllAsync(), Times.Once);

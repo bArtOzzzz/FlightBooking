@@ -135,7 +135,7 @@ namespace FlightBooking.Test.AirplaneTest
         }
 
         [Fact]
-        private async Task GetByIdAsync_WhenControllerRequestIsEmpty_Returns_NotFoundResult()
+        private async Task GetByIdAsync_WhenRequestDataIsEmpty_Returns_NotFoundResult()
         {
             // Arrange
             _mockMediator.Setup(m => m.Send(new AirplaneGetByIdQuery(_airplaneDtoFixture.Id), default))

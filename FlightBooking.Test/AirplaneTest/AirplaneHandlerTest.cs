@@ -1,13 +1,13 @@
-﻿using AutoFixture;
-using FlightBooking.Application.Abstractions.IServices;
+﻿using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.CommandHandlers;
+using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
-using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.Dto;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.AirplaneTest
 {
@@ -43,7 +43,6 @@ namespace FlightBooking.Test.AirplaneTest
 
             // Assert
             result.Should().BeOfType<List<AirplaneDto>>();
-            result.Should().HaveCount(3);
             result.Should().BeEquivalentTo(_airplaneDtosListFixture);
 
             _mockAirplaneService.Verify(a => a.GetAllAsync(), Times.Once);
@@ -84,10 +83,10 @@ namespace FlightBooking.Test.AirplaneTest
             var result = await handler.Handle(query, default);
 
             // Assert
+            result.Should().BeOfType<List<AirplaneDto>>();
             result.Should().BeEmpty();
             result.Should().NotBeNull();
             result.Should().NotBeEquivalentTo(_airplaneDtosListFixture);
-            result.Should().BeOfType<List<AirplaneDto>>();
 
             _mockAirplaneService.Verify(a => a.GetAllAsync(), Times.Once);
         }
@@ -156,7 +155,7 @@ namespace FlightBooking.Test.AirplaneTest
         {
             // Arrange
             _mockAirplaneService.Setup(config => config.CreateAsync(It.IsAny<AirplaneDto>()))
-                               .ReturnsAsync(_airlplaneDtoFixture.Id);
+                                .ReturnsAsync(_airlplaneDtoFixture.Id);
 
             var command = new AirplaneCreateCommand(_airlplaneDtoFixture);
             var handler = new AirplaneCreateCommandHandler(_mockAirplaneService.Object);

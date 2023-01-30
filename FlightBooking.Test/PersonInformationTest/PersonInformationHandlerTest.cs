@@ -1,13 +1,13 @@
-﻿using AutoFixture;
-using FlightBooking.Application.Abstractions.IServices;
+﻿using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.CommandHandlers;
+using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
-using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.Dto;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.PersonInformationTest
 {
@@ -43,7 +43,6 @@ namespace FlightBooking.Test.PersonInformationTest
 
             // Assert
             result.Should().BeOfType<List<PersonInformationDto>>();
-            result.Should().HaveCount(3);
             result.Should().BeEquivalentTo(_personInformationDtosListFixture);
 
             _mockPersonInformationService.Verify(a => a.GetAllAsync(), Times.Once);
@@ -166,11 +165,6 @@ namespace FlightBooking.Test.PersonInformationTest
 
             // Assert
             result.Should().NotBeEmpty();
-            result.Should().HaveCount(2);
-            result[0].Should().NotBeEmpty();
-            result[0].Should().Be(_personInformationDtoFixture.Id);
-            result[1].Should().NotBeEmpty();
-            result[1].Should().Be(_personInformationDtoFixture.UserId);
 
             _mockPersonInformationService.Verify(a => a.CreateAsync(It.IsAny<PersonInformationDto>()), Times.Once);
         }

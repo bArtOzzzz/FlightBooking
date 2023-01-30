@@ -1,14 +1,14 @@
-﻿using FlightBooking.Domain.Entities;
-using FlightBooking.Infrastructure.Repository;
-using FlightBooking.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using System.Data.Common;
-using Xunit;
+﻿using FlightBooking.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
+using FlightBooking.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using FlightBooking.Infrastructure;
+using System.Data.Common;
+using FluentAssertions;
 using Moq.Dapper;
 using Dapper;
-using FluentAssertions;
+using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.AirplaneTest
 {
@@ -29,7 +29,7 @@ namespace FlightBooking.Test.AirplaneTest
         }
 
         [Fact]
-        private async Task GetAllAsync_OnSuccess_Returns_CompletedResult()
+        private async Task GetAllAsync_OnSuccess_Returns_CompletedResult_With_RightType()
         {
             // Arrange
             var connection = new Mock<DbConnection>();
@@ -63,12 +63,11 @@ namespace FlightBooking.Test.AirplaneTest
 
             // Assert
             result.Should().BeOfType<List<AirplaneEntity>>();
-            result.Should().HaveCount(2);
-            result[0].Should().BeEquivalentTo(expected[0]);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        private void GetByIdAsync_OnSuccess_Returns_CompletedResult()
+        private void GetByIdAsync_OnSuccess_Returns_CompletedResult_With_RightType()
         {
             var connection = new Mock<DbConnection>();
 
@@ -86,7 +85,7 @@ namespace FlightBooking.Test.AirplaneTest
         }
 
         [Fact]
-        private async Task CreateAsync_OnSuccess_Returns_CompletedResult()
+        private async Task CreateAsync_OnSuccess_Returns_NotEmptyResult()
         {
             // Arrange
             var airplaneEntity = new AirplaneEntity()
@@ -104,7 +103,7 @@ namespace FlightBooking.Test.AirplaneTest
         }
 
         [Fact]
-        private async Task UpdateAsync_OnSuccess_Returns_CompletedResult()
+        private async Task UpdateAsync_OnSuccess_Returns_NotEmptyResult()
         {
             // Arrange
             var airplaneEntity = new AirplaneEntity()

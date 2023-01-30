@@ -1,13 +1,12 @@
-﻿using AutoFixture;
-using AutoMapper;
-using FlightBooking.Application.Abstractions.IRepositories;
-using FlightBooking.Application.Abstractions.IServices;
-using FlightBooking.Application.Dto;
+﻿using FlightBooking.Application.Abstractions.IRepositories;
 using FlightBooking.Application.Services;
+using FlightBooking.Application.Dto;
 using FlightBooking.Domain.Entities;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
+using AutoMapper;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.AirplaneTest
 {
@@ -59,7 +58,6 @@ namespace FlightBooking.Test.AirplaneTest
             // Assert
             result.Should().BeOfType<List<AirplaneDto>>();
             result.Should().NotBeNullOrEmpty();
-            result.Should().HaveCount(2);
             result.Should().BeEquivalentTo(expectation);
 
             _mockAirplaneRepository.Verify(p => p.GetAllAsync(), Times.Once);

@@ -1,13 +1,13 @@
-﻿using AutoFixture;
-using FlightBooking.Application.Abstractions.IServices;
+﻿using FlightBooking.Application.Abstractions.IServices;
 using FlightBooking.Application.CQRS.CommandHandlers;
+using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.CQRS.Commands;
 using FlightBooking.Application.CQRS.Queries;
-using FlightBooking.Application.CQRS.QueryHandlers;
 using FlightBooking.Application.Dto;
 using FluentAssertions;
-using Moq;
+using AutoFixture;
 using Xunit;
+using Moq;
 
 namespace FlightBooking.Test.FlightTest
 {
@@ -43,7 +43,6 @@ namespace FlightBooking.Test.FlightTest
 
             // Assert
             result.Should().BeOfType<List<FlightDto>>();
-            result.Should().HaveCount(3);
             result.Should().BeEquivalentTo(_flightDtosListFixture);
 
             _mockFlightService.Verify(a => a.GetAllAsync(), Times.Once);
@@ -84,10 +83,10 @@ namespace FlightBooking.Test.FlightTest
             var result = await handler.Handle(query, default);
 
             // Assert
+            result.Should().BeOfType<List<FlightDto>>();
             result.Should().BeEmpty();
             result.Should().NotBeNull();
             result.Should().NotBeEquivalentTo(_flightDtosListFixture);
-            result.Should().BeOfType<List<FlightDto>>();
 
             _mockFlightService.Verify(a => a.GetAllAsync(), Times.Once);
         }
@@ -217,7 +216,7 @@ namespace FlightBooking.Test.FlightTest
         {
             // Arrange
             _mockFlightService.Setup(config => config.UpdateAsync(It.IsAny<Guid>(), It.IsAny<FlightDto>()))
-                               .ReturnsAsync(_flightDtoFixture.Id);
+                              .ReturnsAsync(_flightDtoFixture.Id);
 
             var command = new FlightUpdateCommand(_flightDtoFixture.Id, _flightDtoFixture);
             var handler = new FlightUpdateCommandHandler(_mockFlightService.Object);
@@ -256,7 +255,7 @@ namespace FlightBooking.Test.FlightTest
 
             // Arrange
             _mockFlightService.Setup(config => config.UpdateAsync(It.IsAny<Guid>(), It.IsAny<FlightDto>()))
-                               .ReturnsAsync(_flightDtoFixture.Id);
+                              .ReturnsAsync(_flightDtoFixture.Id);
 
             var command = new FlightUpdateCommand(_flightDtoFixture.Id, _flightDtoFixture);
             var handler = new FlightUpdateCommandHandler(_mockFlightService.Object);
@@ -294,7 +293,7 @@ namespace FlightBooking.Test.FlightTest
         {
             // Arrange
             _mockFlightService.Setup(config => config.DeleteAsync(It.IsAny<Guid>()))
-                               .ReturnsAsync(false);
+                              .ReturnsAsync(false);
 
             var command = new FlightDeleteCommand(_flightDtoFixture.Id);
             var handler = new FlightDeleteCommandHandler(_mockFlightService.Object);

@@ -46,6 +46,9 @@ namespace FlightBooking.Infrastructure
             Guid[] GuidPersonInformationArr = { new Guid("b568d785-5542-406e-81ad-63c38b7e01f5"),
                                                 new Guid("1da87518-fb76-421b-9d01-01e8fa5a2af4") };
 
+            Guid[] GuidBoardingPassArr = { new Guid("65b5e2db-f405-4d62-ae1d-ce57f7590fc6"),
+                                           new Guid("0fdd06d1-075c-45f8-8d96-cab92be56031") };
+
             #endregion
 
             #region Relationships configuration
@@ -348,7 +351,7 @@ namespace FlightBooking.Infrastructure
 
                 new BoardingPassEntity
                 {
-                    Id = Guid.NewGuid(),
+                    Id = GuidBoardingPassArr[0],
                     FlightId = GuidFlightArr[1],
                     UserId = GuidUserArr[0],
                     CreatedDate = new DateTime(2023, 2, 6, 8, 43, 17).ToString("MM-dd-yy"),
@@ -360,7 +363,7 @@ namespace FlightBooking.Infrastructure
 
                 new BoardingPassEntity
                 {
-                    Id = Guid.NewGuid(),
+                    Id = GuidBoardingPassArr[1],
                     FlightId = GuidFlightArr[2],
                     UserId = GuidUserArr[1],
                     CreatedDate = new DateTime(2023, 7, 24, 19, 36, 16).ToString("MM-dd-yy"),

@@ -43,7 +43,6 @@ namespace FlightBooking.Test.AirlineTests
 
             // Assert
             result.Should().BeOfType<List<AirlineDto>>();
-            result.Should().HaveCount(3);
             result.Should().BeEquivalentTo(_airlineDtosListFixture);
 
             _mockAirlineService.Verify(a => a.GetAllAsync(), Times.Once);
@@ -84,10 +83,10 @@ namespace FlightBooking.Test.AirlineTests
             var result = await handler.Handle(query, default);
 
             // Assert
+            result.Should().BeOfType<List<AirlineDto>>();
             result.Should().BeEmpty();
             result.Should().NotBeNull();
             result.Should().NotBeEquivalentTo(_airlineDtosListFixture);
-            result.Should().BeOfType<List<AirlineDto>>();
 
             _mockAirlineService.Verify(a => a.GetAllAsync(), Times.Once);
         }

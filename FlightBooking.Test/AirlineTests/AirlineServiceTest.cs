@@ -1,6 +1,5 @@
 ﻿using FlightBooking.Application.Abstractions.IRepository;
 using FlightBooking.Application.Services;
-using FlightBooking.Application.Mapper;
 using FlightBooking.Application.Dto;
 using FlightBooking.Domain.Entities;
 using FluentAssertions;
@@ -59,7 +58,6 @@ namespace FlightBooking.Test.AirlineTests
             // Assert
             result.Should().BeOfType<List<AirlineDto>>();
             result.Should().NotBeNullOrEmpty();
-            result.Should().HaveCount(2);
             result.Should().BeEquivalentTo(expectation);
 
             _mockAirlineRepository.Verify(p => p.GetAllAsync(), Times.Once);
