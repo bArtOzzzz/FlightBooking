@@ -18,14 +18,17 @@ namespace FlightBooking.API.Controllers
         private readonly IMapper _mapper;
 
         private readonly IValidator<AirlineCreateOrUpdateRequest> _validator;
+        private readonly ILogger<AirlineController> _logger;
 
         public AirlineController(IMediator mediator, 
                                  IMapper mapper, 
-                                 IValidator<AirlineCreateOrUpdateRequest> validator)
+                                 IValidator<AirlineCreateOrUpdateRequest> validator,
+                                 ILogger<AirlineController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
             _validator = validator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -40,7 +43,10 @@ namespace FlightBooking.API.Controllers
             var airlinesMap = _mapper.Map<List<AirlineResponse>>(await _mediator.Send(new AirlineGetAllQuery()));
 
             if (!airlinesMap.Any())
+            {
+                _logger.LogError("ERROR 404 [AirlineController (GetAllAsync)]: An error occurred while getting the list of airlines");
                 return NotFound();
+            }
 
             return Ok(airlinesMap);
         }
@@ -58,7 +64,10 @@ namespace FlightBooking.API.Controllers
             var airlineMap = _mapper.Map<AirlineResponse>(await _mediator.Send(new AirlineGetByIdQuery(id)));
 
             if (airlineMap == null)
+            {
+                _logger.LogError("ERROR 404 [AirlineController (GetByIdAsync)]: An error occurred while getting the airline by id");
                 return NotFound();
+            }
 
             return Ok(airlineMap);
         }
@@ -74,7 +83,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> CreateAsync(AirlineCreateOrUpdateRequest airlineCreateOrUpdate)
         {
             if (airlineCreateOrUpdate == null)
+            {
+                _logger.LogError("ERROR 404 [AirlineController (CreateAsync)]: An error occurred while create airline");
                 return NotFound();
+            }
 
             await _validator.ValidateAndThrowAsync(airlineCreateOrUpdate);
 
@@ -98,7 +110,10 @@ namespace FlightBooking.API.Controllers
 
             if (airlineCreateOrUpdate == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [AirlineController (UpdateAsync)]: An error occurred while update airline");
                 return NotFound();
+            }
 
             var airlineMap = _mapper.Map<AirlineDto>(airlineCreateOrUpdate);
 
@@ -115,7 +130,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             if(id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [AirlineController (DeleteAsync)]: An error occurred while delete airline");
                 return NotFound();
+            }
 
             await _mediator.Send(new AirlineDeleteCommand(id));
 

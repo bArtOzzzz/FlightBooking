@@ -13,11 +13,15 @@ namespace FlightBooking.API.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
+        private readonly ILogger<UserController> _logger;
+
         public UserController(IMediator mediator,
-                              IMapper mapper)
+                              IMapper mapper,
+                              ILogger<UserController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -32,7 +36,10 @@ namespace FlightBooking.API.Controllers
             var usersMap = _mapper.Map<List<UserResponse>>(await _mediator.Send(new UserGetAllQuery()));
 
             if (!usersMap.Any())
+            {
+                _logger.LogError("ERROR 404 [UserController (GetAllAsync)]: An error occurred while getting the list of users");
                 return NotFound();
+            }
 
             return Ok(usersMap);
         }
@@ -50,7 +57,10 @@ namespace FlightBooking.API.Controllers
             var userMap = _mapper.Map<UserResponse>(await _mediator.Send(new UserGetByIdQuery(id)));
 
             if (userMap == null)
+            {
+                _logger.LogError("ERROR 404 [UserController (GetByIdAsync)]: An error occurred while getting user by id");
                 return NotFound();
+            }
 
             return Ok(userMap);
         }

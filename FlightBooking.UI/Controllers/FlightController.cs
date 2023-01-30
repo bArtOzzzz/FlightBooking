@@ -21,17 +21,21 @@ namespace FlightBooking.API.Controllers
         private readonly IValidator<FlightUpdateDescriptionRequest> _validatorUpdateDescription;
         private readonly IValidator<FlightUpdateDateInformationRequest> _validatorUpdateDateInformation;
 
+        private readonly ILogger<FlightController> _logger;
+
         public FlightController(IMediator mediator,
                                 IMapper mapper,
                                 IValidator<FlightCreateOrUpdateRequest> validatorCreateOrUpdate,
                                 IValidator<FlightUpdateDescriptionRequest> validatorUpdateDescription,
-                                IValidator<FlightUpdateDateInformationRequest> validatorUpdateDateInformationRequest)
+                                IValidator<FlightUpdateDateInformationRequest> validatorUpdateDateInformationRequest,
+                                ILogger<FlightController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
             _validatorCreateOrUpdate = validatorCreateOrUpdate;
             _validatorUpdateDescription = validatorUpdateDescription;
-            _validatorUpdateDateInformation = validatorUpdateDateInformationRequest;      
+            _validatorUpdateDateInformation = validatorUpdateDateInformationRequest;
+            _logger = logger;
         }
 
         /// <summary>
@@ -46,7 +50,10 @@ namespace FlightBooking.API.Controllers
             var flightMap = _mapper.Map<List<FlightResponse>>(await _mediator.Send(new FlightGetAllQuery()));
 
             if (!flightMap.Any())
+            {
+                _logger.LogError("ERROR 404 [FlightController (GetAllAsync)]: An error occurred while getting the list of flights");
                 return NotFound();
+            }
 
             return Ok(flightMap);
         }
@@ -64,7 +71,10 @@ namespace FlightBooking.API.Controllers
             var flightMap = _mapper.Map<FlightResponse>(await _mediator.Send(new FlightGetByIdQuery(id)));
 
             if (flightMap == null)
+            {
+                _logger.LogError("ERROR 404 [FlightController (GetByIdAsync)]: An error occurred while getting the flight by id");
                 return NotFound();
+            }
 
             return Ok(flightMap);
         }
@@ -80,8 +90,11 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> CreateAsync(FlightCreateOrUpdateRequest flightCreateOrUpdateRequest)
         {
             if (flightCreateOrUpdateRequest == null)
+            {
+                _logger.LogError("ERROR 404 [FlightController (CreateAsync)]: An error occurred while create the flight");
                 return NotFound();
-                
+            }
+
             await _validatorCreateOrUpdate.ValidateAndThrowAsync(flightCreateOrUpdateRequest);
 
             var flightMap = _mapper.Map<FlightDto>(flightCreateOrUpdateRequest);
@@ -104,7 +117,10 @@ namespace FlightBooking.API.Controllers
 
             if (flightCreateOrUpdateRequest == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [FlightController (UpdateAsync)]: An error occurred while update the flight");
                 return NotFound();
+            }
 
             var flightMap = _mapper.Map<FlightDto>(flightCreateOrUpdateRequest);
 
@@ -126,7 +142,10 @@ namespace FlightBooking.API.Controllers
 
             if (flightUpdateDescriptionRequest == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [FlightController (UpdateDescriptionAsync)]: An error occurred while update description about flight");
                 return NotFound();
+            }
 
             var flightMap = _mapper.Map<FlightDto>(flightUpdateDescriptionRequest);
 
@@ -148,7 +167,10 @@ namespace FlightBooking.API.Controllers
 
             if (flightUpdateDateInformationRequest == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [FlightController (UpdateDateInformationAsync)]: An error occurred while update date information about flight");
                 return NotFound();
+            }
 
             var flightMap = _mapper.Map<FlightDto>(flightUpdateDateInformationRequest);
 
@@ -165,7 +187,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             if (id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [FlightController (DeleteAsync)]: An error occurred while delete the information about flight");
                 return NotFound();
+            }
 
             await _mediator.Send(new FlightDeleteCommand(id));
 

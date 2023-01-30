@@ -25,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Moq.Dapper" Version="1.0.5" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Stashbox" Version="5.7.0" />
     <PackageReference Include="Stashbox.AspNetCore.Hosting" Version="4.5.0" />
     <PackageReference Include="Stashbox.AspNetCore.Multitenant" Version="4.5.0" />

@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="Moq.Dapper" Version="1.0.5" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Stashbox" Version="5.7.0" />
     <PackageReference Include="Stashbox.AspNetCore.Hosting" Version="4.5.0" />
     <PackageReference Include="Stashbox.AspNetCore.Multitenant" Version="4.5.0" />

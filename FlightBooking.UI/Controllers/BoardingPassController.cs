@@ -20,15 +20,19 @@ namespace FlightBooking.API.Controllers
         private readonly IValidator<BoardingPassCreateRequest> _boardingPassCreateValidator;
         private readonly IValidator<BoardingPassUpdateRequest> _boardingPassUpdateValidator;
 
+        private readonly ILogger<BoardingPassController> _logger;
+
         public BoardingPassController(IMediator mediator,
                                  IMapper mapper,
                                  IValidator<BoardingPassCreateRequest> boardingPassCreateValidator,
-                                 IValidator<BoardingPassUpdateRequest> boardingPassUpdateValidator)
+                                 IValidator<BoardingPassUpdateRequest> boardingPassUpdateValidator,
+                                 ILogger<BoardingPassController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
             _boardingPassCreateValidator = boardingPassCreateValidator;
             _boardingPassUpdateValidator = boardingPassUpdateValidator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -43,7 +47,10 @@ namespace FlightBooking.API.Controllers
             var boardingPassMap = _mapper.Map<List<BoardingPassResponse>>(await _mediator.Send(new BoardingPassGetAllQuery()));
 
             if (!boardingPassMap.Any())
+            {
+                _logger.LogError("ERROR 404 [BoardingPassController (GetAllAsync)]: An error occurred while getting the list of boarding passes");
                 return NotFound();
+            }
 
             return Ok(boardingPassMap);
         }
@@ -61,7 +68,10 @@ namespace FlightBooking.API.Controllers
             var airlineMap = _mapper.Map<BoardingPassResponse>(await _mediator.Send(new BoardingPassGetByIdQuery(id)));
 
             if (airlineMap == null)
+            {
+                _logger.LogError("ERROR 404 [BoardingPassController (GetByIdAsync)]: An error occurred while getting the boarding pass by id");
                 return NotFound();
+            }
 
             return Ok(airlineMap);
         }
@@ -77,7 +87,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> CreateAsync(BoardingPassCreateRequest boardingPassCreateRequest)
         {
             if (boardingPassCreateRequest == null)
+            {
+                _logger.LogError("ERROR 404 [BoardingPassController (CreateAsync)]: An error occurred while create the boarding pass");
                 return NotFound();
+            }
 
             await _boardingPassCreateValidator.ValidateAndThrowAsync(boardingPassCreateRequest);
 
@@ -101,7 +114,10 @@ namespace FlightBooking.API.Controllers
 
             if (boardingPassUpdateRequest == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [BoardingPassController (UpdateAsync)]: An error occurred while update the boarding pass");
                 return NotFound();
+            }
 
             var boardingPassMap = _mapper.Map<BoardingPassDto>(boardingPassUpdateRequest);
 
@@ -118,7 +134,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             if (id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [BoardingPassController (DeleteAsync)]: An error occurred while delete the boarding pass");
                 return NotFound();
+            }
 
             await _mediator.Send(new BoardingPassDeleteCommand(id));
 

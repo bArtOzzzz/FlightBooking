@@ -12,6 +12,7 @@ using FlightBooking.API.Validators;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Add Fluent Validation
 builder.Services.AddFluentValidationClientsideAdapters();
 
+// Add Stashbox
 builder.Services.AddStashbox();
 
 // DI for custom services
@@ -65,8 +67,19 @@ builder.Services.AddScoped<IValidator<PersonInformationCreateOrUpdateRequest>, P
 
 builder.Services.AddSwaggerGen();
 
+// Add MediatR
 builder.Services.AddMediatR(typeof(AirlineGetAllQuery).Assembly);
- 
+
+// Add Serilog
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/arquivo.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 // Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {

@@ -20,13 +20,17 @@ namespace FlightBooking.API.Controllers
 
         private readonly IValidator<PersonInformationCreateOrUpdateRequest> _validator;
 
+        private readonly ILogger<PersonInformationController> _logger;
+
         public PersonInformationController(IMediator mediator,
                                           IMapper mapper,
-                                          IValidator<PersonInformationCreateOrUpdateRequest> validator)
+                                          IValidator<PersonInformationCreateOrUpdateRequest> validator,
+                                          ILogger<PersonInformationController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
             _validator = validator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -41,7 +45,10 @@ namespace FlightBooking.API.Controllers
             var personInformationMap = _mapper.Map<List<PersonInformationResponse>>(await _mediator.Send(new PersonInformationGetAllQuery()));
 
             if (!personInformationMap.Any())
+            {
+                _logger.LogError("ERROR 404 [PersonInformationController (GetAllAsync)]: An error occurred while getting the list of persons informations");
                 return NotFound();
+            }
 
             return Ok(personInformationMap);
         }
@@ -59,7 +66,10 @@ namespace FlightBooking.API.Controllers
             var personInformationMap = _mapper.Map<PersonInformationResponse>(await _mediator.Send(new PersonInformationGetByIdQuery(id)));
 
             if (personInformationMap == null)
+            {
+                _logger.LogError("ERROR 404 [PersonInformationController (GetByIdAsync)]: An error occurred while getting persons information by id");
                 return NotFound();
+            }
 
             return Ok(personInformationMap);
         }
@@ -75,7 +85,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> CreateAsync(PersonInformationCreateOrUpdateRequest personInformationCreateOrUpdate)
         {
             if (personInformationCreateOrUpdate == null)
+            {
+                _logger.LogError("ERROR 404 [PersonInformationController (CreateAsync)]: An error occurred while cretae persons information");
                 return NotFound();
+            }
 
             await _validator.ValidateAndThrowAsync(personInformationCreateOrUpdate);
 
@@ -99,7 +112,10 @@ namespace FlightBooking.API.Controllers
 
             if (personInformationCreateOrUpdate == null
                 || id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [PersonInformationController (UpdateAsync)]: An error occurred while update persons information");
                 return NotFound();
+            }
 
             var personInformationMap = _mapper.Map<PersonInformationDto>(personInformationCreateOrUpdate);
 
@@ -116,7 +132,10 @@ namespace FlightBooking.API.Controllers
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
             if (id.Equals(Guid.Empty))
+            {
+                _logger.LogError("ERROR 404 [PersonInformationController (DeleteAsync)]: An error occurred while delete persons information");
                 return NotFound();
+            }
 
             await _mediator.Send(new PersonInformationDeleteCommand(id));
 
