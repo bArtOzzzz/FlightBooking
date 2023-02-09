@@ -20,21 +20,25 @@ namespace FlightBooking.Infrastructure.Repository
 
         public async Task<List<FlightEntity>> GetAllAsync()
         {
-            var sql = "SELECT * FROM Flights";
+            string sql = "SELECT * FROM Flights";
 
-            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            using SqlConnection connection = new(_configuration["DefaultConnectionToLocalDatabase"]);
             await connection.OpenAsync();
             var result = await connection.QueryAsync<FlightEntity>(sql);
+            await connection.CloseAsync();
+
             return result.ToList();
         }
 
         public async Task<FlightEntity?> GetByIdAsync(Guid id)
         {
-            var sql = "SELECT * FROM Flights WHERE Id = @Id";
+            string sql = "SELECT * FROM Flights WHERE Id = @Id";
 
-            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            using SqlConnection connection = new(_configuration["DefaultConnectionToLocalDatabase"]);
             await connection.OpenAsync();
             var result = await connection.QuerySingleOrDefaultAsync<FlightEntity>(sql, new { Id = id });
+            await connection.CloseAsync();
+
             return result;
         }
 

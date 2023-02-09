@@ -1,9 +1,9 @@
 ﻿using FlightBooking.Application.Abstractions.IRepositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using FlightBooking.Domain.Entities;
 using Microsoft.Data.SqlClient;
 using Dapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlightBooking.Infrastructure.Repository
 {
@@ -20,21 +20,25 @@ namespace FlightBooking.Infrastructure.Repository
 
         public async Task<List<BoardingPassEntity>> GetAllAsync()
         {
-            var sql = "SELECT * FROM BoardingPasses";
+            string sql = "SELECT * FROM BoardingPasses";
 
-            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            using SqlConnection connection = new(_configuration["DefaultConnectionToLocalDatabase"]);
             await connection.OpenAsync();
             var result = await connection.QueryAsync<BoardingPassEntity>(sql);
+            await connection.CloseAsync();
+
             return result.ToList();
         }
 
         public async Task<BoardingPassEntity?> GetByIdAsync(Guid id)
         {
-            var sql = "SELECT * FROM BoardingPasses WHERE Id = @Id";
+            string sql = "SELECT * FROM BoardingPasses WHERE Id = @Id";
 
-            using var connection = new SqlConnection(_configuration["DefaultConnectionToLocalDatabase"]);
+            using SqlConnection connection = new(_configuration["DefaultConnectionToLocalDatabase"]);
             await connection.OpenAsync();
             var result = await connection.QuerySingleOrDefaultAsync<BoardingPassEntity>(sql, new { Id = id });
+            await connection.CloseAsync();
+
             return result;
         }
 
